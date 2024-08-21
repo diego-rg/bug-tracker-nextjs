@@ -1,7 +1,16 @@
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Bug Tracker</h1>
-    </main>
+    <div className="bg-white">
+      <div className="h-screen">
+        <Navbar />
+        <Hero />
+      </div><div>
+
+      </div>
+
+    </div>
   );
 }
