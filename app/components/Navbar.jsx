@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Dialog, DialogPanel } from '@headlessui/react';
 import { VscDebug, VscMenu } from "react-icons/vsc";
+import { LiaArrowRightSolid } from "react-icons/lia";
 import Link from 'next/link';
 
 const navigation = [
@@ -18,12 +19,12 @@ export default function Navbar() {
     return (
         <header className="absolute inset-x-0 top-0 z-50 lg:px-16 lg:py-5">
             {/* NAV */}
-            <nav aria-label="Global" className="flex items-center justify-between px-2 lg:px-8">
+            <nav aria-label="Global" className="flex items-center justify-between px-4 py-4 lg:py-0 lg:px-8">
                 <div className="flex lg:flex-1">
                     {/* LOGO: DESKTOP AND MOBILE */}
-                    <Link href="/" className="flex m-1.5 p-1.5">
+                    <Link href="/" className="flex m-1.5 p-1.5 text-purple-600">
                         <span className="sr-only">Bug Tracker</span>
-                        <VscDebug className=" size-5 lg:size-7 xl:size-9" />
+                        <VscDebug className="size-5 lg:size-7 xl:size-9" />
                         <h1 className="px-1 text-md lg:text-2xl xl:text-3xl font-semibold">BugTracker</h1>
                     </Link>
                 </div>
@@ -44,21 +45,23 @@ export default function Navbar() {
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">Log in
-                        <span aria-hidden="true">&rarr;</span>
-                    </a>
+                    <Link href="#" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                            hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
+                        Log In
+                        <span className="pl-2 pt-1" aria-hidden="true"><LiaArrowRightSolid /></span>
+                    </Link>
                 </div>
             </nav>
 
             {/* MOBILE DROPDOWN MENU*/}
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
                 <div className="fixed inset-0 z-50" />
-                <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-4 py-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                     <div className="flex items-center justify-between">
                         {/* LOGO: INSIDE DROPDOWN MENU */}
-                        <Link href="/" className="flex m-1.5 p-1.5">
+                        <Link href="/" className="flex m-1.5 p-1.5 text-purple-600">
                             <span className="sr-only">Bug Tracker</span>
-                            <VscDebug className=" size-5 lg:size-9" />
+                            <VscDebug className="size-5 lg:size-9" />
                             <h1 className="px-1 text-md lg:text-3xl font-semibold">BugTracker</h1>
                         </Link>
                         {/* BUTTON: CLOSE DROPDOWN MOBILE */}
@@ -68,26 +71,22 @@ export default function Navbar() {
                             <VscMenu className="size-6" aria-hidden="true" />
                         </button>
                     </div>
+                    {/* MENU ITEMS MOBILE DROPDOWN MENU */}
                     <div className="mt-6 flow-root">
                         <div className="-my-6 divide-y divide-gray-500/10">
-                            <div className="space-y-2 py-6">
+                            <div className="space-y-2 py-6 px-3.5">
                                 {navigation.map((item) => (
-                                    <a
-                                        key={item.name}
-                                        href={item.href}
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                    >
+                                    <a key={item.name} href={item.href} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-100">
                                         {item.name}
                                     </a>
                                 ))}
                             </div>
                             <div className="py-6">
-                                <a
-                                    href="#"
-                                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                >
-                                    Log in
-                                </a>
+                                <Link href="#" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                            hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
+                                    Log In
+                                    <span className="pl-2 pt-1" aria-hidden="true"><LiaArrowRightSolid /></span>
+                                </Link>
                             </div>
                         </div>
                     </div>
