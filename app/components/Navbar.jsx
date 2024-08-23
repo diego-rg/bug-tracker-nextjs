@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Dialog, DialogPanel } from '@headlessui/react';
+import { useState } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
 import { VscDebug, VscMenu } from "react-icons/vsc";
 import { LiaArrowRightSolid } from "react-icons/lia";
-import Link from 'next/link';
+import Link from "next/link";
 
 const navigation = [
-    { name: 'Product', href: '#' },
-    { name: 'Features', href: '#' },
-    { name: 'Marketplace', href: '#' },
-    { name: 'Company', href: '#' },
+    { name: "Code", href: "https://github.com/diego-rg/bug-tracker-nextjs" },
+    { name: "Docs", href: "#" },
+    { name: "Guide", href: "#" },
+    { name: "About", href: "#" },
 ];
 
 export default function Navbar() {
@@ -39,7 +39,7 @@ export default function Navbar() {
                 {/* MENU ITEMS DESKTOP */}
                 <div className="hidden lg:flex lg:gap-x-12">
                     {navigation.map((item) => (
-                        <Link key={item.name} href={item.href} className="text-md font-semibold leading-6 text-gray-900">
+                        <Link key={item.name} href={item.href} className="text-md font-semibold leading-6 text-gray-900 hover:text-purple-600">
                             {item.name}
                         </Link>
                     ))}
