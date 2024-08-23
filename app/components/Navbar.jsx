@@ -7,10 +7,10 @@ import { LiaArrowRightSolid } from "react-icons/lia";
 import Link from "next/link";
 
 const navigation = [
-    { name: "Code", href: "https://github.com/diego-rg/bug-tracker-nextjs" },
-    { name: "Docs", href: "#" },
     { name: "Guide", href: "#" },
-    { name: "About", href: "#" },
+    { name: "Code", href: "https://github.com/diego-rg/bug-tracker-nextjs" },
+    { name: "Credits", href: "https://github.com/diego-rg/bug-tracker-nextjs/blob/main/credits.md" },
+    { name: "About", href: "https://diego-rg.vercel.app/" },
 ];
 
 export default function Navbar() {
@@ -73,12 +73,12 @@ export default function Navbar() {
                     </div>
                     {/* MENU ITEMS MOBILE DROPDOWN MENU */}
                     <div className="mt-6 flow-root">
-                        <div className="-my-6 divide-y divide-gray-500/10">
+                        <div className="my-6 divide-y divide-gray-500/10">
                             <div className="space-y-2 py-6 px-3.5">
                                 {navigation.map((item) => (
-                                    <a key={item.name} href={item.href} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-100">
+                                    <Link key={item.name} href={item.href} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-100">
                                         {item.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                             <div className="py-6">
