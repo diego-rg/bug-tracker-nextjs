@@ -1,7 +1,7 @@
 import { Roboto_Flex } from "next/font/google";
-import "./globals.css";
 
-import Provider from "./components/Provider";
+import "./globals.css";
+import Provider from "@components/Provider";
 
 const inter = Roboto_Flex({ subsets: ["latin"] });
 
