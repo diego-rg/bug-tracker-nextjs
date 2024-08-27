@@ -20,3 +20,8 @@ https://icons8.com/line-awesome
 Apache License Version 2.0
 https://developers.google.com/fonts/docs/material_icons?hl=es-419
 http://google.github.io/material-design-icons/
+
+### IMAGES
+https://undraw.co/
+https://undraw.co/license Copyright 2024 Katerina Limpitsouni
+All images, assets and vectors published on unDraw can be used for free. You can use them for noncommercial and commercial purposes. You do not need to ask permission from or provide credit to the creator or unDraw.
