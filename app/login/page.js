@@ -32,28 +32,28 @@ export default function Login() {
                         <span className="mr-2 ml-3">Track issues during development</span>
                     </div>
 
-                    <Link className="btn-signIn cursor-pointer" href="#">
+                    <Link className="btn_signIn cursor-pointer" href="#">
                         <span className="text-gray-700 dark:text-gray-200">
                             <FaUserCircle size={20} />
                         </span>
                         <span className="pl-2 text-md font-bold">Continue as Guest</span>
                     </Link>
 
-                    <Link className="btn-signIn cursor-pointer" href="#">
+                    <Link className="btn_signIn cursor-pointer" href="#">
                         <span className="text-gray-700 dark:text-gray-200">
                             <FcGoogle size={20} />
                         </span>
                         <span className="pl-2 text-md font-bold">Sign in with Google</span>
                     </Link>
 
-                    <Link className="btn-signIn disabled-item" href="#">
+                    <Link className="btn_signIn disabled_item" href="#">
                         <span className="text-gray-700 dark:text-gray-200">
                             <FaGithub size={20} />
                         </span>
                         <span className="pl-2 text-md font-bold">Sign in with GitHub</span>
                     </Link>
 
-                    <Link className="btn-signIn disabled-item" href="#">
+                    <Link className="btn_signIn disabled_item" href="#">
                         <span className="text-blue-500 dark:text-blue-400">
                             <FaTwitter size={20} />
                         </span>

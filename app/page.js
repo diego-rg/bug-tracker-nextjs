@@ -5,7 +5,7 @@ import Footer from "@components/Footer";
 
 export default function Home() {
   return (
-    <div id="home">
+    <div className="bg_home">
       <section className="h-screen flex justify-center items-center" id="hero">
         <Navbar />
         <Hero />

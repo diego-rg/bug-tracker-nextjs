@@ -25,7 +25,7 @@ export default function Navbar() {
                     <Link href="/" className="flex m-1.5 p-1.5 text-purple-600">
                         <span className="sr-only">Bug Tracker</span>
                         <VscDebug className="size-5 lg:size-7 xl:size-9" />
-                        <h1 className="px-1 text-md lg:text-2xl xl:text-3xl font-semibold">BugTracker</h1>
+                        <h1 className="px-1 text-md lg:text-2xl xl:text-3xl font-bold">BugTracker</h1>
                     </Link>
                 </div>
                 {/* BUTTON: OPEN DROPDOWN MOBILE */}
@@ -62,7 +62,7 @@ export default function Navbar() {
                         <Link href="/" className="flex m-1.5 p-1.5 text-purple-600">
                             <span className="sr-only">Bug Tracker</span>
                             <VscDebug className="size-5 lg:size-9" />
-                            <h1 className="px-1 text-md lg:text-3xl font-semibold">BugTracker</h1>
+                            <h1 className="px-1 text-md lg:text-3xl font-bold">BugTracker</h1>
                         </Link>
                         {/* BUTTON: CLOSE DROPDOWN MOBILE */}
                         <button type="button" onClick={() => setMobileMenuOpen(false)}
@@ -73,7 +73,7 @@ export default function Navbar() {
                     </div>
                     {/* MENU ITEMS MOBILE DROPDOWN MENU */}
                     <div className="mt-6 flow-root">
-                        <div className="my-6 divide-y divide-gray-500/10">
+                        <div className="divide-y divide-gray-500/10">
                             <div className="space-y-2 py-6 px-3.5">
                                 {navigation.map((item) => (
                                     <Link key={item.name} href={item.href} className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-100">
