@@ -1,8 +1,4 @@
-import { NextResponse } from 'next/server';
-
-export function middleware(request) {
-    return NextResponse.redirect(new URL('/login', request.url));
-}
+export { default } from "next-auth/middleware";
 
 export const config = {
     matcher: '/dashboard/:path*',

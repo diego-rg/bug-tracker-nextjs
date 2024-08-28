@@ -4,7 +4,9 @@ import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { VscDebug, VscMenu } from "react-icons/vsc";
 import { LiaArrowRightSolid } from "react-icons/lia";
+import { RxExit } from "react-icons/rx";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 
 const navigation = [
     { name: "Guide", href: "#" },
@@ -15,6 +17,7 @@ const navigation = [
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { data: session } = useSession();
 
     return (
         <header className="absolute inset-x-0 top-0 z-50 lg:px-16 lg:py-5">
@@ -45,11 +48,16 @@ export default function Navbar() {
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Link href="/login" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                    {!session && <Link href="/login" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
                         Log In
                         <span className="pl-2 pt-1" aria-hidden="true"><LiaArrowRightSolid /></span>
-                    </Link>
+                    </Link>}
+                    {session && <button type="button" onClick={signOut({ callbackUrl: 'http://localhost:3000' })} className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                            hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
+                        Log Out
+                        <span className="pl-2 pt-1" aria-hidden="true"><RxExit /></span>
+                    </button>}
                 </div>
             </nav>
 
@@ -82,11 +90,16 @@ export default function Navbar() {
                                 ))}
                             </div>
                             <div className="py-6">
-                                <Link href="#" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                                {!session && <Link href="#" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
                                     Log In
                                     <span className="pl-2 pt-1" aria-hidden="true"><LiaArrowRightSolid /></span>
-                                </Link>
+                                </Link>}
+                                {session && <button type="button" onClick={signOut({ callbackUrl: 'http://localhost:3000' })} className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                            hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
+                                    Log Out
+                                    <span className="pl-2 pt-1" aria-hidden="true"><RxExit /></span>
+                                </button>}
                             </div>
                         </div>
                     </div>
