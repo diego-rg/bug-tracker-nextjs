@@ -6,7 +6,6 @@ import { FcGoogle } from "react-icons/fc";
 import { VscDebug } from "react-icons/vsc";
 import { useEffect, useState } from "react";
 import { signIn, useSession, getProviders } from "next-auth/react";
-import Link from "next/link";
 import { useRouter } from 'next/navigation';
 
 export default function Login() {
@@ -26,7 +25,6 @@ export default function Login() {
     }, []);
 
     const providerIcons = {
-        Guest: <FaUserCircle size={20} />,
         Google: <FcGoogle size={20} />,
         GitHub: <FaGithub size={20} />
     };
@@ -55,16 +53,15 @@ export default function Login() {
                         <span className="mr-2 ml-3">Track issues during development</span>
                     </div>
 
-                    <Link className="btn_signIn cursor-pointer" href="#">
+                    <button type="button" className="btn_signIn cursor-pointer" >
                         <span className="text-gray-700 dark:text-gray-200">
                             <FaUserCircle size={20} />
                         </span>
                         <span className="pl-2 text-md font-bold">Continue as Guest</span>
-                    </Link>
+                    </button>
 
                     {providers && Object.values(providers).map((provider) => (
-                        <button type="button" key={provider.name} onClick={() => signIn(provider.id)}
-                            className="btn_signIn cursor-pointer">
+                        <button type="button" key={provider.name} onClick={() => signIn(provider.id)} className="btn_signIn cursor-pointer">
                             <span className="text-gray-700 dark:text-gray-200">
                                 {providerIcons[provider.name]}
                             </span>

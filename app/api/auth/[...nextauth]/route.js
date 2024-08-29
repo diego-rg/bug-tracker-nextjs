@@ -1,25 +1,12 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from "next-auth/providers/github";
-import CredentialsProvider from "next-auth/providers/credentials";
 
 import User from '@models/user';
 import { connectToDatabase } from '@utils/connectToDatabase';
 
 const handler = NextAuth({
     providers: [
-        CredentialsProvider({
-            name: 'Guest',
-            credentials: {
-            },
-            async authorize(credentials, req) {
-                const profile = {
-                    email: "guest88ml9fd54ab9@guestfakeemail.fake",
-                    username: "Guest",
-                    picture: "\images\logo.png"
-                };
-            }
-        }),
         GoogleProvider({
             clientId: process.env.GOOGLE_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
