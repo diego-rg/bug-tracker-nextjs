@@ -26,6 +26,7 @@ export default function Login() {
     }, []);
 
     const providerIcons = {
+        Guest: <FaUserCircle size={20} />,
         Google: <FcGoogle size={20} />,
         GitHub: <FaGithub size={20} />
     };
