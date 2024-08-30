@@ -17,6 +17,7 @@ const UserSchema = new Schema({
     projects: [{
         type: Schema.Types.ObjectId,
         ref: 'Project',
+        unique: [true, "This user is already in the project."],
     }],
 },
     { timestamps: true }

@@ -14,6 +14,11 @@ const ProjectSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    developers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        unique: [true, "The developer is already assigned to this project."],
+    }]
 },
     { timestamps: true }
 );
