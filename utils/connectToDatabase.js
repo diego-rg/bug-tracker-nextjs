@@ -11,8 +11,6 @@ export const connectToDatabase = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URI, {
             dbName: "clusterbugtrackernextjs",
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
         });
         isConnected = true;
         console.log('Connected to MongoDB successfully.');

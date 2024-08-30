@@ -3,16 +3,16 @@ import { MdOutlineCreateNewFolder, MdOutlineAddBox, MdBugReport } from "react-ic
 
 export default function Features() {
     const features = [{
-        name: 'Create projects.',
+        name: 'Create projects. ',
         description:
             'Manage several independent projects that are visible only to you and your team.',
         icon: MdOutlineCreateNewFolder,
     }, {
-        name: 'Add developers.',
+        name: 'Add developers. ',
         description: 'Invite any other user as developer using his email direction.',
         icon: MdOutlineAddBox,
     }, {
-        name: 'Assign and track bugs.',
+        name: 'Assign and track bugs. ',
         description: 'Create, update, remove and keep the status of each bug updated.',
         icon: MdBugReport,
     },
