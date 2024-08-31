@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth/next";
 // Middleware controla auth en API tamen. Suponse que temos session ou fara redirect a login
 export const GET = async (request, { params }) => {
     try {
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
+        // TODO: Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         const session = await getServerSession();
         if (session.user.id !== params.userId) {
             return new Response("Your profile does not have access to this resource.", { status: 403 });
