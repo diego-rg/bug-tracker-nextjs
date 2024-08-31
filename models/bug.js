@@ -33,7 +33,6 @@ const BugSchema = new Schema({
     assignedTo: [{
         type: Schema.Types.ObjectId,
         ref: 'User',
-        unique: [true, "Bug already assigned to that user."],
     }],
 },
     { timestamps: true }
