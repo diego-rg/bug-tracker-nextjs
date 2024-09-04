@@ -19,3 +19,12 @@ Rule 4: Arrays should not grow without bound. If there are more than a couple of
 Rule 5: With MongoDB, how you model your data depends – entirely – on your particular application's data access patterns. You want to structure your data to match the ways that your application queries and updates it.
 https://www.mongodb.com/developer/products/mongodb/schema-design-anti-pattern-massive-arrays/
 One of the rules of thumb when modeling data in MongoDB is data that is accessed together should be stored together. If you'll be retrieving or updating data together frequently, you should probably store it together. Data is commonly stored together by embedding related information in subdocuments or arrays.
+Based on these factors, you can pick one of the three basic One-to-N schema designs:
+Embed the N side if the cardinality is one-to-few and there is no need to access the embedded object outside the context of the parent object.
+Use an array of references to the N-side objects if the cardinality is one-to-many or if the N-side objects should stand alone for any reasons.
+Use a reference to the One-side in the N-side objects if the cardinality is one-to-squillions.
+https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design
+Intermediate: Two-way referencing
+Putting in the extra "owner" reference into the Task document means that its quick and easy to find the task’s owner, but it also means that if you need to reassign the task to another person, you need to perform two updates instead of just one. Specifically, you’ll have to update both the reference from the Person to the Task document, and the reference from the Task to the Person. 
+Intermediate: Database denormalization with one-to-many relationships
+Split some information and embed it in another document (duplicate some fields), while keeping all the information about that entity in another document. Denormalization saves you a lookup of the denormalized data at the cost of a more expensive update since you're adding a little data redundancy to the database: If you’ve denormalized the Part name into the Product document, then when you update the Part name you must also update every place it occurs in the "products" collection. For instance, assume the part name changes infrequently, but the quantity on hand changes frequently. This means that while it makes sense to denormalize the part name into the Product document, for data integrity purposes, it does not make sense to denormalize the quantity on hand.

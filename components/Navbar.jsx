@@ -48,16 +48,24 @@ export default function Navbar() {
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    {!session && <Link href="/login" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                    {session?.user ?
+                        (<div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                            <Link href={`/dashboard/${session.user.id}`} className="mx-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
-                        Log In
-                        <span className="pl-2 pt-1" aria-hidden="true"><LiaArrowRightSolid /></span>
-                    </Link>}
-                    {session && <button type="button" onClick={signOut({ callbackUrl: 'http://localhost:3000' })} className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                                Dashboard
+                                <span className="pl-2 pt-1" aria-hidden="true"><VscDebug /></span>
+                            </Link>
+                            <button type="button" onClick={() => signOut({ callbackUrl: '/' })} className="mx-2 flex justify-center rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                                hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                                Log Out
+                                <span className="pl-2 pt-1" aria-hidden="true"><RxExit /></span>
+                            </button>
+                        </div>)
+                        : (<Link href="/api/auth/signin" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
-                        Log Out
-                        <span className="pl-2 pt-1" aria-hidden="true"><RxExit /></span>
-                    </button>}
+                            Log In
+                            <span className="pl-2 pt-1" aria-hidden="true"><LiaArrowRightSolid /></span>
+                        </Link>)}
                 </div>
             </nav>
 
@@ -90,16 +98,24 @@ export default function Navbar() {
                                 ))}
                             </div>
                             <div className="py-6">
-                                {!session && <Link href="/login" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                                {session?.user ?
+                                    (<div className="py-6">
+                                        <Link href={`/dashboard/${session.user.id}`} className="m-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
-                                    Log In
-                                    <span className="pl-2 pt-1" aria-hidden="true"><LiaArrowRightSolid /></span>
-                                </Link>}
-                                {session && <button type="button" onClick={signOut({ callbackUrl: 'http://localhost:3000' })} className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                                            Dashboard
+                                            <span className="pl-2 pt-1" aria-hidden="true"><VscDebug /></span>
+                                        </Link>
+                                        <button type="button" onClick={() => signOut({ callbackUrl: '/' })} className="m-2 flex justify-center rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                                hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                                            Log Out
+                                            <span className="pl-2 pt-1" aria-hidden="true"><RxExit /></span>
+                                        </button>
+                                    </div>)
+                                    : (<Link href="/api/auth/signin" className="flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
-                                    Log Out
-                                    <span className="pl-2 pt-1" aria-hidden="true"><RxExit /></span>
-                                </button>}
+                                        Log In
+                                        <span className="pl-2 pt-1" aria-hidden="true"><LiaArrowRightSolid /></span>
+                                    </Link>)}
                             </div>
                         </div>
                     </div>

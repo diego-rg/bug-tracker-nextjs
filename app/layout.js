@@ -3,7 +3,7 @@ import { Roboto_Flex } from "next/font/google";
 import "./globals.css";
 import Provider from "@components/Provider";
 
-const inter = Roboto_Flex({ subsets: ["latin"] });
+const roboto = Roboto_Flex({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Bug Tracker",
@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <Provider>
           <main>
             {children}
