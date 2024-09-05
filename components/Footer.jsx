@@ -1,6 +1,3 @@
-import { LiaArrowUpSolid } from "react-icons/lia";
-import Link from "next/link";
-
 export default function Footer() {
     return (
         <footer className="mt-auto text-center p-6 mt-6 text-md lg:text-lg leading-8 text-gray-600">

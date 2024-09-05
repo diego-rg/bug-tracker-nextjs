@@ -6,13 +6,10 @@ const ProjectSchema = new Schema({
         required: [true, "You must provide a name for the project."],
         unique: [true, "A project with that name already exists."],
     },
-    bugs: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Bug',
-    }],
     admin: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        required: [true, "You must provide an admin for the project."],
     },
     developers: [{
         type: Schema.Types.ObjectId,

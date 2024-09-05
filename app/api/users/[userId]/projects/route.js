@@ -9,20 +9,15 @@ export const GET = async (request, { params }) => {
     try {
         // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         const session = await getServerSession(authConfig);
-        console.log("server");
-        console.log(session);
         if (session.user.id !== params.userId) {
             return new Response("Your profile does not have access to this resource.", { status: 403 });
         }
 
         await connectToDatabase();
-        const user = await User.findOne({ _id: params.userId }).populate("projects");
+        const user = await User.findOne({ _id: session.user.id });
+        const projects = await Project.find({ admin: user }).populate("admin");
 
-        // Se existe session debería existir usuario na db. INNECESARIO???
-        if (!user)
-            return new Response("The requested user does not exist.", { status: 200 });
-
-        return new Response(JSON.stringify(user.projects), { status: 200 });
+        return new Response(JSON.stringify(projects), { status: 200 });
     } catch (error) {
         return new Response("Error fetching the user data." + error, { status: 500, });
     }
@@ -31,16 +26,24 @@ export const GET = async (request, { params }) => {
 export const POST = async (request, { params }) => {
     try {
         // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
-        const session = await getServerSession();
+        const session = await getServerSession(authConfig);
         if (session.user.id !== params.userId) {
             return new Response("Your profile does not have access to this resource.", { status: 403 });
         }
 
-        const data = new Project(request.body);
-        await connectToDatabase();
-        const project = await data.save();
+        const data = await request.formData();
+        const name = data.get("name");
+        console.log(name);
+        const admin = await User.findOne({ _id: session.user.id });
+        console.log(admin);
 
-        if (!project)
+        await connectToDatabase();
+
+        const project = new Project({ name, admin });
+
+        const saveProject = await project.save();
+
+        if (!saveProject)
             return new Response("Error while saving the project data." + error, { status: 500 });
 
         return new Response("New project created succesfully.", { status: 200 });

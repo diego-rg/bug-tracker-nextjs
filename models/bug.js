@@ -29,6 +29,7 @@ const BugSchema = new Schema({
     createdBy: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        required: [true, "You must provide a creator for the bug."],
     },
     assignedTo: [{
         type: Schema.Types.ObjectId,

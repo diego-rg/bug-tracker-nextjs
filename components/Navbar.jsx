@@ -50,7 +50,7 @@ export default function Navbar() {
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     {session?.user ?
                         (<div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                            <Link href={`/dashboard/${session.user.id}`} className="mx-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                            <Link href="/dashboard" className="mx-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
                                 Dashboard
                                 <span className="pl-2 pt-1" aria-hidden="true"><VscDebug /></span>
@@ -100,7 +100,7 @@ export default function Navbar() {
                             <div className="py-6">
                                 {session?.user ?
                                     (<div className="py-6">
-                                        <Link href={`/dashboard/${session.user.id}`} className="m-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
+                                        <Link href="/dashboard" className="m-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
                                             Dashboard
                                             <span className="pl-2 pt-1" aria-hidden="true"><VscDebug /></span>
