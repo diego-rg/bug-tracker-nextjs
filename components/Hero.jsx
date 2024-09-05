@@ -12,8 +12,7 @@ export default function Hero() {
                 fugiat veniam occaecat fugiat aliqua.
             </p>
             <div className="mt-10 flex items-center justify-center">
-                <Link href="#features" className="flex rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
-                            hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
+                <Link href="#features" className="btn_main">
                     Learn More
                     <span className="pl-2 pt-1" aria-hidden="true"><LiaArrowDownSolid /></span>
                 </Link>

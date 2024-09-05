@@ -5,6 +5,7 @@ const BugSchema = new Schema({
         type: String,
         required: [true, "You must provide a name for the bug."],
         unique: [true, "A bug with that name already exists."],
+        maxlength: 25
     },
     description: {
         type: String,

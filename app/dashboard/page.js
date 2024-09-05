@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 import ProjectForm from "@components/ProjectForm";
+import { getDate } from "@lib/timeDateConversor";
 
 export default function Projects() {
     const { data: session } = useSession();
@@ -50,14 +51,17 @@ export default function Projects() {
         <div>
             <h1>{session?.user?.name}</h1>
             <div>
-                <button className="btn_signIn flex-col" onClick={() => setToggleModal((prev) => !prev)}>
+                <button className="btn_main" onClick={() => setToggleModal((prev) => !prev)}>
                     <h2>Create a new project</h2>
                     <p>NEW PROJECT LOGO</p>
                 </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 justify-items-center">
                 {projects.map((project) => (
-                    <Link className="btn_signIn flex-col" href={`/api/users/${session.user.id}/projects/${project._id}`} key={project._id}>
-                        <h2>{project.name}</h2>
-                        <p>ADMIN: {project.admin.username}</p>
+                    <Link className="card_container_project" href={`/api/users/${session.user.id}/projects/${project._id}`} key={project._id}>
+                        <h2 className="card_title">{project.name}</h2>
+                        <p className="card_list">Admin: {project.admin.username}</p>
+                        <p className="card_list">Created: {getDate(project.createdAt)}</p>
                     </Link>
                 ))}
             </div>
