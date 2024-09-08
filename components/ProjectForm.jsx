@@ -3,7 +3,7 @@ import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 
-const BugForm = ({ setToggleModal, submitting, handleSubmit }) => {
+const BugForm = ({ setToggleModal, submitting, handleSubmit, info }) => {
     return (
         <div className="modal_container">
             <div className="modal_content">
@@ -20,12 +20,12 @@ const BugForm = ({ setToggleModal, submitting, handleSubmit }) => {
                         <label htmlFor="name" className="form_label">Name:</label>
                         <input className='form_input' type='text' placeholder='Name of your project' name="name" id="name" required />
                     </div>
+                    <div className="text-white">{info}</div>
                     <div className="flex">
                         <button className="btn_signIn" type='submit' disabled={submitting}>Save project</button>
                         <button className="btn_signIn" onClick={() => setToggleModal((prev) => !prev)} type="button" disabled={submitting}>Close</button>
                     </div>
                 </form>
-
             </div>
         </div >
     );
