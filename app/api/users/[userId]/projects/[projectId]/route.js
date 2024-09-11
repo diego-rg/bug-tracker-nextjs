@@ -13,8 +13,8 @@ export const GET = async (request, { params }) => {
         const session = await getServerSession(authConfig);
         // TODO: probar a entrar a un project que non é de ese user 
         // cambiar por find{id:projectID, admin ou developer:userID }???
-        const user = await User.findOne({ _id: session.user.id });
-        const project = await Project.findOne({ _id: params.projectId }).populate("admin", "developers");
+        const user = await User.findById(session.user.id);
+        const project = await Project.findById(params.projectId).populate("admin", "developers");
         if (session.user.id !== params.userId || (project.admin !== user && !project.developers.includes(user))) {
             return new Response.JSON.stringify({ message: "Your profile does not have access to this resource." }, { status: 403 });
         }
@@ -40,7 +40,7 @@ export const PUT = async (request, { params }) => {
 
         const data = await request.formData();
         const name = data.get("name");
-        const admin = await User.findOne({ _id: session.user.id });
+        const admin = await User.findById(session.user.id);
 
         await connectToDatabase();
         const project = new Project({ name, admin });

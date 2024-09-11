@@ -14,7 +14,7 @@ export const GET = async (request, { params }) => {
         }
 
         await connectToDatabase();
-        const user = await User.findOne({ _id: session.user.id });
+        const user = await User.findById(session.user.id);
         const projects = await Project.find({ $or: [{ admin: user }, { developers: user }] }).populate("admin");
 
         return new Response(JSON.stringify(projects), { status: 200 });
@@ -33,7 +33,7 @@ export const POST = async (request, { params }) => {
 
         const data = await request.formData();
         const name = data.get("name");
-        const admin = await User.findOne({ _id: session.user.id });
+        const admin = await User.findById(session.user.id);
 
         await connectToDatabase();
         const project = new Project({ name, admin });
