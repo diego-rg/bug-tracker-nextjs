@@ -1,4 +1,5 @@
 import Project from "@models/project";
+import User from "@models/user";
 import { connectToDatabase } from "@lib/connectToDatabase";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from '@lib/authConfig';
@@ -7,20 +8,51 @@ import { authConfig } from '@lib/authConfig';
 export const GET = async (request, { params }) => {
     try {
         // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
-        const session = await getServerSession(authConfig);
-        if (session.user.id !== params.userId) {
-            return new Response("Your profile does not have access to this resource.", { status: 403 });
-        }
-
+        // E tamén que o usuario está autorizado para acceder a ese proxecto
         await connectToDatabase();
-        const project = await Project.findOne({ _id: params.projectId });
+        const session = await getServerSession(authConfig);
+        // TODO: probar a entrar a un project que non é de ese user 
+        // cambiar por find{id:projectID, admin ou developer:userID }???
+        const user = await User.findOne({ _id: session.user.id });
+        const project = await Project.findOne({ _id: params.projectId }).populate("admin", "developers");
+        if (session.user.id !== params.userId || (project.admin !== user && !project.developers.includes(user))) {
+            return new Response.JSON.stringify({ message: "Your profile does not have access to this resource." }, { status: 403 });
+        }
 
         // INNECESARIO???
         if (!project)
-            return new Response("The requested project does not exist.", { status: 200 });
+            return new Response.JSON.stringify({ message: "The requested project does not exist." }, { status: 200 });
 
         return new Response(JSON.stringify(project), { status: 200 });
     } catch (error) {
-        return new Response("Error fetching the project data." + error, { status: 500, });
+        return new Response.JSON.stringify({ message: "Error fetching the project data." + error }, { status: 500, });
+    }
+};
+
+// TODO facer update project
+export const PUT = async (request, { params }) => {
+    try {
+        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
+        const session = await getServerSession(authConfig);
+        if (session.user.id !== params.userId) {
+            return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
+        }
+
+        const data = await request.formData();
+        const name = data.get("name");
+        const admin = await User.findOne({ _id: session.user.id });
+
+        await connectToDatabase();
+        const project = new Project({ name, admin });
+        const saveProject = await project.save();
+
+        if (!saveProject)
+            return new Response(JSON.stringify({ message: "Error while saving the project data." }), { status: 500 });
+
+        return new Response(JSON.stringify({ message: "New project created succesfully." }), { status: 200 });
+    } catch (error) {
+        return new Response(JSON.stringify({
+            message: "Error during the project creation. " + (error.code === 11000 ? "Project name already in use." : error)
+        }), { status: 500, });
     }
 };

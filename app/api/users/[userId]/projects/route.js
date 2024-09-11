@@ -15,7 +15,7 @@ export const GET = async (request, { params }) => {
 
         await connectToDatabase();
         const user = await User.findOne({ _id: session.user.id });
-        const projects = await Project.find({ admin: user }).populate("admin");
+        const projects = await Project.find({ $or: [{ admin: user }, { developers: user }] }).populate("admin");
 
         return new Response(JSON.stringify(projects), { status: 200 });
     } catch (error) {
