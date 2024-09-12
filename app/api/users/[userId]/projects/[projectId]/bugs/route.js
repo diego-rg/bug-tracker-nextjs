@@ -1,4 +1,6 @@
 import Project from "@models/project";
+import User from "@models/user";
+import Bug from "@models/bug";
 import { connectToDatabase } from "@lib/connectToDatabase";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from '@lib/authConfig';
@@ -7,20 +9,25 @@ import { authConfig } from '@lib/authConfig';
 export const GET = async (request, { params }) => {
     try {
         // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
+        // E tamén que o usuario está autorizado para acceder a ese proxecto
+        await connectToDatabase();
         const session = await getServerSession(authConfig);
-        if (session.user.id !== params.userId) {
-            return new Response("Your profile does not have access to this resource.", { status: 403 });
+        // TODO: probar a entrar a un project que non é de ese user 
+        // cambiar por find{id:projectID, admin ou developer:userID }???
+        const user = await User.findById(session.user.id);
+        const project = await Project.findById(params.projectId).populate("admin", "developers");
+        if (session.user.id !== params.userId || (project.admin !== user && !project.developers.includes(user))) {
+            return new Response.JSON.stringify({ message: "Your profile does not have access to this resource." }, { status: 403 });
         }
 
-        await connectToDatabase();
-        const project = await Project.findOne({ _id: params.projectId }).populate("bugs");
+        const bugs = await Bug.find({ project: project });
 
         // INNECESARIO???
-        if (!project)
-            return new Response("The requested project does not exist.", { status: 200 });
+        if (!bugs)
+            return new Response.JSON.stringify({ message: "The requested project does not exist." }, { status: 200 });
 
-        return new Response(JSON.stringify(project.bugs), { status: 200 });
+        return new Response(JSON.stringify(bugs), { status: 200 });
     } catch (error) {
-        return new Response("Error fetching the project data." + error, { status: 500, });
+        return new Response.JSON.stringify({ message: "Error fetching the project data. " + error }, { status: 500, });
     }
 };

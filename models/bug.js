@@ -36,6 +36,11 @@ const BugSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     }],
+    project: {
+        type: Schema.Types.ObjectId,
+        ref: 'Project',
+        required: [true, "You must provide a project for the bug."],
+    },
 },
     { timestamps: true }
 );
