@@ -17,17 +17,17 @@ export const GET = async (request, { params }) => {
         const user = await User.findById(session.user.id);
         const project = await Project.findById(params.projectId).populate("admin", "developers");
         if (session.user.id !== params.userId || (project.admin !== user && !project.developers.includes(user))) {
-            return new Response.JSON.stringify({ message: "Your profile does not have access to this resource." }, { status: 403 });
+            return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
         }
 
         const bugs = await Bug.find({ project: project });
 
         // INNECESARIO???
         if (!bugs)
-            return new Response.JSON.stringify({ message: "The requested project does not exist." }, { status: 200 });
+            return new Response(JSON.stringify({ message: "The requested project does not have bugs." }), { status: 200 });
 
         return new Response(JSON.stringify(bugs), { status: 200 });
     } catch (error) {
-        return new Response.JSON.stringify({ message: "Error fetching the project data. " + error }, { status: 500, });
+        return new Response(JSON.stringify({ message: "Error fetching the project data. " + error }), { status: 500, });
     }
 };

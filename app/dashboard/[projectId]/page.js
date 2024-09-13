@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import BugForm from "@components/ProjectForm";
 
-export default function Bugs() {
+export default function Bugs({ params }) {
     const { data: session } = useSession();
     const [bugs, setBugs] = useState([]);
     const [toggleModal, setToggleModal] = useState(false);
