@@ -62,7 +62,7 @@ export default function Projects() {
             <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 justify-items-center">
                 {projects.length > 0 ?
                     (projects.map((project) => (
-                        <Link className="card_container_project" href={`/api/users/${session.user.id}/projects/${project._id}`} key={project._id}>
+                        <Link className="card_container_project" href={`/dashboard/${project.name.replace(/\s+/g, '-').toLowerCase()}`} key={project._id}>
                             <h2 className="card_title">{project.name}</h2>
                             <p className="card_list">Admin: {project.admin.username}</p>
                             <p className="card_list">Created: {getDate(project.createdAt)}</p>
