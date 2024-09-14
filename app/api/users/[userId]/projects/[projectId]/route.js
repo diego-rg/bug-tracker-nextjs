@@ -15,7 +15,7 @@ export const GET = async (request, { params }) => {
         // cambiar por find{id:projectID, admin ou developer:userID }???
         const user = await User.findById(session.user.id);
         const project = await Project.findById(params.projectId).populate("admin", "developers");
-        if (session.user.id !== params.userId || (project.admin !== user && !project.developers.includes(user))) {
+        if (session.user.id !== params.userId || (project.admin._id.toString() !== user._id.toString() && !project.developers.includes(user))) {
             return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
         }
 

@@ -6,7 +6,7 @@ const BugForm = ({ setToggleModal, submitting, handleSubmit, info }) => {
             <div className="modal_content">
                 <div className="modal_header">
                     <h3 className="modal_title">Fill the project data</h3>
-                    <button onClick={() => setToggleModal((prev) => !prev)} type="button" className="btn-menu">
+                    <button onClick={() => setToggleModal((prev) => !prev)} type="button" className="btn_menu">
                         <AiOutlineClose size={24} />
                         <span className="sr-only">Close modal</span>
                     </button>

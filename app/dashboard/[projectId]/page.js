@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-import BugForm from "@components/ProjectForm";
+import BugForm from "@components/BugForm";
 
 export default function Bugs({ params }) {
     const { data: session } = useSession();
@@ -36,7 +36,7 @@ export default function Bugs({ params }) {
                 return;
             }
             setInfo("Project created.");
-            if (session?.user.id) fetchProjects();
+            if (session?.user.id) fetchBugs();
         } catch (error) {
             console.log(error);
             setInfo("Unnexpected error. Try again later.");
@@ -61,7 +61,7 @@ export default function Bugs({ params }) {
             <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 justify-items-center">
                 {bugs.length > 0 ?
                     (bugs.map((bug) => (
-                        <Link className="card_container_project" href={`/api/users/${session.user.id}/projects/${project._id}/bugs/${bugs._id}`} key={bug._id}>
+                        <Link className="card_container_project" href={`/api/users/${session.user.id}/projects/${params.projectId}/bugs/${bugs._id}`} key={bug._id}>
                             <h2 className="card_title">{bug.name}</h2>
                         </Link>
                     ))) : (
