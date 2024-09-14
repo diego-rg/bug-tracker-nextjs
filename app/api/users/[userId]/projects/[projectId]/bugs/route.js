@@ -16,7 +16,7 @@ export const GET = async (request, { params }) => {
         // cambiar por find{id:projectID, admin ou developer:userID }???
         const user = await User.findById(session.user.id);
         const project = await Project.findById(params.projectId).populate("admin", "developers");
-        if (session.user.id !== params.userId || (project.admin !== user && !project.developers.includes(user))) {
+        if (session.user.id !== params.userId || (project.admin._id.toString() !== user._id.toString() && !project.developers.includes(user))) {
             return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
         }
 
@@ -28,6 +28,42 @@ export const GET = async (request, { params }) => {
 
         return new Response(JSON.stringify(bugs), { status: 200 });
     } catch (error) {
+        console.log(error);
         return new Response(JSON.stringify({ message: "Error fetching the project data. " + error }), { status: 500, });
+    }
+};
+
+export const POST = async (request, { params }) => {
+    try {
+        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
+        // E tamén que o usuario está autorizado para acceder a ese proxecto
+        await connectToDatabase();
+        const session = await getServerSession(authConfig);
+        // TODO: probar a entrar a un project que non é de ese user 
+        // cambiar por find{id:projectID, admin ou developer:userID }???
+        const user = await User.findById(session.user.id);
+        const project = await Project.findById(params.projectId).populate("admin", "developers");
+        if (session.user.id !== params.userId || (project.admin !== user && !project.developers.includes(user))) {
+            return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
+        }
+
+        const data = await request.formData();
+        const name = data.get("name");
+        const description = data.get("description");
+        const status = data.get("status");
+        const priority = data.get("priority");
+        const severity = data.get("severity");
+
+        const bug = new Bug({ name, description, status, priority, severity, createdBy: user, project });
+        const saveBug = await bug.save();
+
+        if (!saveBug)
+            return new Response(JSON.stringify({ message: "Error while saving the bug data." }), { status: 500 });
+
+        return new Response(JSON.stringify({ message: "New bug created succesfully." }), { status: 200 });
+    } catch (error) {
+        return new Response(JSON.stringify({
+            message: "Error during the bug creation. " + (error.code === 11000 ? "Bug name already in use." : error)
+        }), { status: 500, });
     }
 };

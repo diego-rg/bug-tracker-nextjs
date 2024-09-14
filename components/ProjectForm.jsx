@@ -1,7 +1,4 @@
-import React from "react";
-
 import { AiOutlineClose } from "react-icons/ai";
-
 
 const BugForm = ({ setToggleModal, submitting, handleSubmit, info }) => {
     return (
