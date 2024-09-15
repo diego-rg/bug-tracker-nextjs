@@ -6,7 +6,7 @@ import { VscDebug, VscMenu } from "react-icons/vsc";
 import { LiaArrowRightSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const navigation = [
     { name: "Guide", href: "#" },
@@ -15,8 +15,9 @@ const navigation = [
     { name: "About", href: "https://diego-rg.vercel.app/" },
 ];
 
-export default function Navbar({ session }) {
+export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { data: session } = useSession();
 
     return (
         <header className="absolute inset-x-0 top-0 z-50 lg:px-16 lg:py-5">
