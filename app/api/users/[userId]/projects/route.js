@@ -7,13 +7,14 @@ import { authConfig } from '@lib/authConfig';
 // Middleware controla auth en API tamen. Suponse que temos session ou fara redirect a login
 export const GET = async (request, { params }) => {
     try {
+        await connectToDatabase();
+
         // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         const session = await getServerSession(authConfig);
         if (session.user.id !== params.userId) {
             return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
         }
 
-        await connectToDatabase();
         const user = await User.findById(session.user.id);
         const projects = await Project.find({ $or: [{ admin: user }, { developers: user }] }).populate("admin");
 
@@ -25,6 +26,8 @@ export const GET = async (request, { params }) => {
 
 export const POST = async (request, { params }) => {
     try {
+        await connectToDatabase();
+
         // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         const session = await getServerSession(authConfig);
         if (session.user.id !== params.userId) {
@@ -35,7 +38,11 @@ export const POST = async (request, { params }) => {
         const name = data.get("name");
         const admin = await User.findById(session.user.id);
 
-        await connectToDatabase();
+        const checkName = await Project.find({ name, admin });
+        if (checkName.length > 0) {
+            return new Response(JSON.stringify({ message: "Project name already in use." }), { status: 500, });
+        }
+
         const project = new Project({ name, admin });
         const saveProject = await project.save();
 
@@ -44,8 +51,6 @@ export const POST = async (request, { params }) => {
 
         return new Response(JSON.stringify({ message: "New project created succesfully." }), { status: 200 });
     } catch (error) {
-        return new Response(JSON.stringify({
-            message: "Error during the project creation. " + (error.code === 11000 ? "Project name already in use." : error)
-        }), { status: 500, });
+        return new Response(JSON.stringify({ message: "Error during the project creation. " + error }), { status: 500, });
     }
 };

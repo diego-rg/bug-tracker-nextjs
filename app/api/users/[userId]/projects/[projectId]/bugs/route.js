@@ -8,9 +8,10 @@ import { authConfig } from '@lib/authConfig';
 // Middleware controla auth en API tamen. Suponse que temos session ou fara redirect a login
 export const GET = async (request, { params }) => {
     try {
+        await connectToDatabase();
+
         // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         // E tamén que o usuario está autorizado para acceder a ese proxecto
-        await connectToDatabase();
         const session = await getServerSession(authConfig);
         // TODO: probar a entrar a un project que non é de ese user 
         // cambiar por find{id:projectID, admin ou developer:userID }???
@@ -35,9 +36,10 @@ export const GET = async (request, { params }) => {
 
 export const POST = async (request, { params }) => {
     try {
+        await connectToDatabase();
+
         // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         // E tamén que o usuario está autorizado para acceder a ese proxecto
-        await connectToDatabase();
         const session = await getServerSession(authConfig);
         // TODO: probar a entrar a un project que non é de ese user 
         // cambiar por find{id:projectID, admin ou developer:userID }???
@@ -53,6 +55,11 @@ export const POST = async (request, { params }) => {
         const priority = data.get("priority");
         const severity = data.get("severity");
 
+        const checkName = await Bug.find({ name, project });
+        if (checkName.length > 0) {
+            return new Response(JSON.stringify({ message: "Bug name already in use." }), { status: 500, });
+        }
+
         const bug = new Bug({ name, description, priority, severity, createdBy: user, project });
         const saveBug = await bug.save();
 
@@ -61,8 +68,6 @@ export const POST = async (request, { params }) => {
 
         return new Response(JSON.stringify({ message: "New bug created succesfully." }), { status: 200 });
     } catch (error) {
-        return new Response(JSON.stringify({
-            message: "Error during the bug creation. " + (error.code === 11000 ? "Bug name already in use." : error)
-        }), { status: 500, });
+        return new Response(JSON.stringify({ message: "Error during the bug creation. " + error }), { status: 500, });
     }
 };

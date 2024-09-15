@@ -4,7 +4,6 @@ const ProjectSchema = new Schema({
     name: {
         type: String,
         required: [true, "You must provide a name for the project."],
-        unique: [true, "A project with that name already exists."],
         maxlength: 25
     },
     admin: {
