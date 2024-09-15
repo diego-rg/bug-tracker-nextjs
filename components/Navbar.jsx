@@ -17,7 +17,7 @@ const navigation = [
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const { data: session } = useSession();
+    const { status } = useSession();
 
     return (
         <header className="absolute inset-x-0 top-0 z-50 lg:px-16 lg:py-5">
@@ -48,7 +48,7 @@ export default function Navbar() {
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    {session?.user ?
+                    {status === "authenticated" ?
                         (<div className="hidden lg:flex lg:flex-1 lg:justify-end">
                             <Link href="/dashboard" className="mx-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
@@ -98,7 +98,7 @@ export default function Navbar() {
                                 ))}
                             </div>
                             <div className="py-6">
-                                {session?.user ?
+                                {status === "authenticated" ?
                                     (<div className="py-6">
                                         <Link href="/dashboard" className="m-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
