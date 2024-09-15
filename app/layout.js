@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { getServerSession } from "next-auth";
 import SessionProvider from "@components/SessionProvider";
+import { authConfig } from '@lib/authConfig';
 
 const roboto = Roboto_Flex({ subsets: ["latin"] });
 
@@ -13,7 +14,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authConfig);
 
   return (
     <html lang="en">
