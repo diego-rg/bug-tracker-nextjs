@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+import { getDate } from "@lib/timeDateConversor";
+
 import BugForm from "@components/BugForm";
 
 export default function Bugs({ params }) {
@@ -63,6 +65,10 @@ export default function Bugs({ params }) {
                     (bugs.map((bug) => (
                         <Link className="card_container_project" href={`/api/users/${session.user.id}/projects/${params.projectId}/bugs/${bugs._id}`} key={bug._id}>
                             <h2 className="card_title">{bug.name}</h2>
+                            <p className="card_list">Status: {bug.status}</p>
+                            <p className="card_list">Priority: {bug.priority}</p>
+                            <p className="card_list">Severity: {bug.severity}</p>
+                            <p className="card_list">Created: {getDate(bug.createdAt)}</p>
                         </Link>
                     ))) : (
                         <p>No bugs!</p>
