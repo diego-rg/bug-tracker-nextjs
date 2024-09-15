@@ -1,8 +1,7 @@
 import { Roboto_Flex } from "next/font/google";
+import { getServerSession } from "next-auth";
 
 import "./globals.css";
-
-import { getServerSession } from "next-auth";
 import SessionProvider from "@components/SessionProvider";
 import { authConfig } from '@lib/authConfig';
 
