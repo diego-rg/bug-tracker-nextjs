@@ -63,7 +63,7 @@ export default function Bugs({ params }) {
             <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 justify-items-center">
                 {bugs.length > 0 ?
                     (bugs.map((bug) => (
-                        <Link className="card_container_project" href={`/api/users/${session.user.id}/projects/${params.projectId}/bugs/${bugs._id}`} key={bug._id}>
+                        <Link className="card_container_project" href={`/api/users/${session.user.id}/projects/${params.projectId}/bugs/${bug._id}`} key={bug._id}>
                             <h2 className="card_title">{bug.name}</h2>
                             <p className="card_list">Status: {bug.status}</p>
                             <p className="card_list">Priority: {bug.priority}</p>
