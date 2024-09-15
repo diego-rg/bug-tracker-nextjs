@@ -17,7 +17,7 @@ const navigation = [
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const status = false;
+    const { status } = useSession();
 
     return (
         <header className="absolute inset-x-0 top-0 z-50 lg:px-16 lg:py-5">
