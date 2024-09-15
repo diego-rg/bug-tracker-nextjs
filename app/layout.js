@@ -1,9 +1,7 @@
 import { Roboto_Flex } from "next/font/google";
-import { getServerSession } from "next-auth";
 
 import "./globals.css";
 import SessionProvider from "@components/SessionProvider";
-import { authConfig } from '@lib/authConfig';
 
 const roboto = Roboto_Flex({ subsets: ["latin"] });
 
@@ -12,13 +10,11 @@ export const metadata = {
   description: "Track bugs during web development process",
 };
 
-export default async function RootLayout({ children }) {
-  const session = await getServerSession(authConfig);
-
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <SessionProvider session={session}>
+        <SessionProvider>
           {children}
         </SessionProvider>
       </body>

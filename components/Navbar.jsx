@@ -6,7 +6,7 @@ import { VscDebug, VscMenu } from "react-icons/vsc";
 import { LiaArrowRightSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 const navigation = [
     { name: "Guide", href: "#" },
@@ -15,9 +15,8 @@ const navigation = [
     { name: "About", href: "https://diego-rg.vercel.app/" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ session }) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const { status } = useSession();
 
     return (
         <header className="absolute inset-x-0 top-0 z-50 lg:px-16 lg:py-5">
@@ -48,7 +47,7 @@ export default function Navbar() {
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    {status === "authenticated" ?
+                    {session?.user ?
                         (<div className="hidden lg:flex lg:flex-1 lg:justify-end">
                             <Link href="/dashboard" className="mx-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
@@ -98,7 +97,7 @@ export default function Navbar() {
                                 ))}
                             </div>
                             <div className="py-6">
-                                {status === "authenticated" ?
+                                {session?.user ?
                                     (<div className="py-6">
                                         <Link href="/dashboard" className="m-2 flex justify-center rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm 
                             hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
