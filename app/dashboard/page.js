@@ -2,10 +2,9 @@
 
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 
+import ProjectCard from "@components/ProjectCard";
 import ProjectForm from "@components/ProjectForm";
-import { getDate } from "@lib/timeDateConversor";
 
 export default function Projects() {
     const { data: session } = useSession();
@@ -59,19 +58,15 @@ export default function Projects() {
                     <p>NEW PROJECT LOGO</p>
                 </button>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 justify-items-center">
+            <main className="card_grid">
                 {projects.length > 0 ?
                     (projects.map((project) => (
-                        <Link className="card_container_project" href={`/dashboard/${project._id}`} key={project._id}>
-                            <h2 className="card_title">{project.name}</h2>
-                            <p className="card_list">Admin: {project.admin.username}</p>
-                            <p className="card_list">Created: {getDate(project.createdAt)}</p>
-                        </Link>
+                        <ProjectCard project={project} key={project._id} />
                     ))) : (
                         <p>No projects!</p>
                     )
                 }
-            </div>
+            </main>
             {toggleModal &&
                 <ProjectForm
                     setToggleModal={setToggleModal}

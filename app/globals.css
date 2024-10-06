@@ -43,7 +43,11 @@
     @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500;
 }
 
-.card_container_project {
+.card_grid {
+    @apply grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 justify-items-center
+}
+
+.card {
     @apply flex flex-col p-4 w-[180px] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 hover:dark:bg-gray-700 dark:border-gray-900 hover:scale-105;
 }
 
