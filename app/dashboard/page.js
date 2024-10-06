@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import ProjectCard from "@components/ProjectCard";
 import ProjectForm from "@components/ProjectForm";
 import SidebarDesktop from "@components/SidebarDesktop";
+import SidebarMobile from "@components/SidebarMobile";
 
 export default function Projects() {
     const { data: session } = useSession();
@@ -54,8 +55,10 @@ export default function Projects() {
         <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
             <SidebarDesktop session={session} model={"Project"} setToggleModalCreate={setToggleModalCreateProject} />
 
-            <main className="w-full bg-gray-200 dark:bg-gray-700 p-2 sm:p-10">
-                <div className="card_grid">
+            <main className="w-full bg-gray-200 dark:bg-gray-700">
+                <SidebarMobile session={session} model={"Project"} setToggleModalCreate={setToggleModalCreateProject} />
+
+                <div className="card_grid p-2 sm:p-10">
                     {projects.length > 0 ?
                         (projects.map((project) => (
                             <ProjectCard project={project} key={project._id} />

@@ -7,6 +7,7 @@ import { LiaArrowRightSolid } from "react-icons/lia";
 import { RxExit } from "react-icons/rx";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
+import { AiOutlineClose } from "react-icons/ai";
 
 const navigation = [
     { name: "Guide", href: "#" },
@@ -84,7 +85,7 @@ export default function Navbar() {
                         <button type="button" onClick={() => setMobileMenuOpen(false)}
                             className="m-2.5 rounded-md p-2.5 text-gray-700">
                             <span className="sr-only">Close main menu</span>
-                            <VscMenu className="size-6" aria-hidden="true" />
+                            <AiOutlineClose className="size-6" aria-hidden="true" />
                         </button>
                     </div>
                     {/* MENU ITEMS MOBILE DROPDOWN MENU */}
