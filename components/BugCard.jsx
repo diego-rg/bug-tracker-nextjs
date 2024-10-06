@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getTimeAndDate } from "@lib/timeDateConversor";
+import { getDate } from "@lib/timeDateConversor";
 
 export default function BugCard({ bug, session, params }) {
     return (
@@ -8,7 +8,7 @@ export default function BugCard({ bug, session, params }) {
             <p className="card_list">Status: {bug.status}</p>
             <p className="card_list">Priority: {bug.priority}</p>
             <p className="card_list">Severity: {bug.severity}</p>
-            <p className="card_list">Created: {getTimeAndDate(bug.createdAt)}</p>
+            <p className="card_list">Created: {getDate(bug.createdAt)}</p>
         </Link>
     );
 }

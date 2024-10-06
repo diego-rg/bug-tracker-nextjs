@@ -5,11 +5,12 @@ import { useState, useEffect } from "react";
 
 import ProjectCard from "@components/ProjectCard";
 import ProjectForm from "@components/ProjectForm";
+import SidebarDesktop from "@components/SidebarDesktop";
 
 export default function Projects() {
     const { data: session } = useSession();
     const [projects, setProjects] = useState([]);
-    const [toggleModal, setToggleModal] = useState(false);
+    const [toggleModalCreateProject, setToggleModalCreateProject] = useState(false);
     const [submitting, setIsSubmitting] = useState(false);
     const [info, setInfo] = useState(null);
 
@@ -50,26 +51,24 @@ export default function Projects() {
     }, [session?.user.id]);
 
     return (
-        <div>
-            <h1>{session?.user?.name}</h1>
-            <div>
-                <button className="btn_main" onClick={() => setToggleModal((prev) => !prev)}>
-                    <h2>Create a new project</h2>
-                    <p>NEW PROJECT LOGO</p>
-                </button>
-            </div>
-            <main className="card_grid">
-                {projects.length > 0 ?
-                    (projects.map((project) => (
-                        <ProjectCard project={project} key={project._id} />
-                    ))) : (
-                        <p>No projects!</p>
-                    )
-                }
+        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+            <SidebarDesktop session={session} model={"Project "} setToggleModalCreate={setToggleModalCreateProject} />
+
+            <main className="w-full bg-gray-200 dark:bg-gray-700 p-2 sm:p-10">
+                <div className="card_grid">
+                    {projects.length > 0 ?
+                        (projects.map((project) => (
+                            <ProjectCard project={project} key={project._id} />
+                        ))) : (
+                            <p>No projects!</p>
+                        )
+                    }
+                </div>
             </main>
-            {toggleModal &&
+
+            {toggleModalCreateProject &&
                 <ProjectForm
-                    setToggleModal={setToggleModal}
+                    setToggleModalCreateProject={setToggleModalCreateProject}
                     submitting={submitting}
                     handleSubmit={handleSubmit}
                     info={info}

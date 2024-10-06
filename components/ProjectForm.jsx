@@ -1,12 +1,12 @@
 import { AiOutlineClose } from "react-icons/ai";
 
-const BugForm = ({ setToggleModal, submitting, handleSubmit, info }) => {
+const BugForm = ({ setToggleModalCreateProject, submitting, handleSubmit, info }) => {
     return (
         <div className="modal_container">
             <div className="modal_content">
                 <div className="modal_header">
                     <h3 className="modal_title">Fill the project data</h3>
-                    <button onClick={() => setToggleModal((prev) => !prev)} type="button" className="btn_menu">
+                    <button onClick={() => setToggleModalCreateProject((prev) => !prev)} type="button" className="btn_menu">
                         <AiOutlineClose size={24} />
                         <span className="sr-only">Close modal</span>
                     </button>
@@ -20,7 +20,7 @@ const BugForm = ({ setToggleModal, submitting, handleSubmit, info }) => {
                     <div className="text-white">{info}</div>
                     <div className="flex">
                         <button className="btn_signIn" type='submit' disabled={submitting}>Save project</button>
-                        <button className="btn_signIn" onClick={() => setToggleModal((prev) => !prev)} type="button" disabled={submitting}>Close</button>
+                        <button className="btn_signIn" onClick={() => setToggleModalCreateProject((prev) => !prev)} type="button" disabled={submitting}>Close</button>
                     </div>
                 </form>
             </div>
