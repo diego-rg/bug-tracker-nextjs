@@ -7,7 +7,7 @@ import { signOut } from "next-auth/react";
 
 export default function SidebarDesktop({ session, model, setToggleModalCreate }) {
     return (
-        <div className="py-4 text-gray-500 dark:text-gray-400">
+        <div className="hidden sm:block py-4 text-gray-500 dark:text-gray-400 bg-gray-900">
             <a className="flex justify-center items-center text-lg font-bold text-gray-800 dark:text-gray-200" href="/">
                 <span className="text-purple-700 dark:text-purple-500">
                     <VscDebug size={20} />
