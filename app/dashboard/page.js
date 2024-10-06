@@ -52,7 +52,7 @@ export default function Projects() {
 
     return (
         <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-            <SidebarDesktop session={session} model={"Project "} setToggleModalCreate={setToggleModalCreateProject} />
+            <SidebarDesktop session={session} model={"Project"} setToggleModalCreate={setToggleModalCreateProject} />
 
             <main className="w-full bg-gray-200 dark:bg-gray-700 p-2 sm:p-10">
                 <div className="card_grid">

@@ -1,6 +1,6 @@
 "use client";
 
-import { RiBookOpenLine, RiQuestionLine, RiLogoutBoxLine } from "react-icons/ri";
+import { RiBookOpenLine, RiQuestionLine, RiLogoutBoxLine, RiArrowGoBackFill } from "react-icons/ri";
 import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { VscDebug } from "react-icons/vsc";
 import { signOut } from "next-auth/react";
@@ -26,6 +26,23 @@ export default function SidebarDesktop({ session, model, setToggleModalCreate })
                         <span>Create {model}</span>
                     </button>
                 </li>
+
+                {model == "Project" ? (
+                    <li className="relative px-6 py-6">
+                        <a className="btn_sidebar btn_menu" href="/">
+                            <RiArrowGoBackFill size={40} />
+                            <span>Go Back</span>
+                        </a>
+                    </li>
+                ) : (
+                    <li className="relative px-6 py-6">
+                        <a className="btn_sidebar btn_menu" href="/dashboard">
+                            <RiArrowGoBackFill size={40} />
+                            <span>Go Back</span>
+                        </a>
+                    </li>
+                )
+                }
 
                 <li className="relative px-6 py-6">
                     <a className="btn_sidebar btn_menu" href="https://github.com/diego-rg/bug-tracker-nextjs">

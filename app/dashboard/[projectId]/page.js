@@ -5,11 +5,12 @@ import { useState, useEffect } from "react";
 import BugCard from "@components/BugCard";
 
 import BugForm from "@components/BugForm";
+import SidebarDesktop from "@components/SidebarDesktop";
 
 export default function Bugs({ params }) {
     const { data: session } = useSession();
     const [bugs, setBugs] = useState([]);
-    const [toggleModal, setToggleModal] = useState(false);
+    const [toggleModalCreateBug, setToggleModalCreateBug] = useState(false);
     const [submitting, setIsSubmitting] = useState(false);
     const [info, setInfo] = useState(null);
 
@@ -35,7 +36,7 @@ export default function Bugs({ params }) {
                 setInfo(data.message);
                 return;
             }
-            setInfo("Project created.");
+            setInfo("Bug created.");
             if (session?.user.id) fetchBugs();
         } catch (error) {
             console.log(error);
@@ -50,26 +51,24 @@ export default function Bugs({ params }) {
     }, [session?.user.id]);
 
     return (
-        <div>
-            <h1>{session?.user?.name}</h1>
-            <div>
-                <button className="btn_main" onClick={() => setToggleModal((prev) => !prev)}>
-                    <h2>Create a new bug</h2>
-                    <p>NEW BUG LOGO</p>
-                </button>
-            </div>
-            <div className="card_grid">
-                {bugs.length > 0 ?
-                    (bugs.map((bug) => (
-                        <BugCard bug={bug} session={session} params={params} key={bug._id} />
-                    ))) : (
-                        <p>No bugs!</p>
-                    )
-                }
-            </div>
-            {toggleModal &&
+        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+            <SidebarDesktop session={session} model={"Bug"} setToggleModalCreate={setToggleModalCreateBug} />
+
+            <main className="w-full bg-gray-200 dark:bg-gray-700 p-2 sm:p-10">
+                <div className="card_grid">
+                    {bugs.length > 0 ?
+                        (bugs.map((bug) => (
+                            <BugCard bug={bug} session={session} params={params} key={bug._id} />
+                        ))) : (
+                            <p>No bugs!</p>
+                        )
+                    }
+                </div>
+            </main>
+
+            {toggleModalCreateBug &&
                 <BugForm
-                    setToggleModal={setToggleModal}
+                    setToggleModalCreateBug={setToggleModalCreateBug}
                     submitting={submitting}
                     handleSubmit={handleSubmit}
                     info={info}
