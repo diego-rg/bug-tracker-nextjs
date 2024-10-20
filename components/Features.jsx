@@ -3,9 +3,6 @@ import Link from "next/link";
 import { MdOutlineCreateNewFolder, MdOutlineAddBox, MdBugReport } from "react-icons/md";
 
 export default function Features() {
-    //TODO fix session state here
-    const session = { user: "dd" };
-
     const features = [{
         name: 'Create projects. ',
         description:
@@ -42,13 +39,9 @@ export default function Features() {
                 </dl>
                 <p className="mt-6 text-md lg:text-lg leading-8 text-gray-600 text-center lg:text-end">
                     ...sounds Good?
-                    {session?.user ?
-                        (<Link href="/dashboard" className="mx-2 inline-flex underline font-bold text-gray-700 hover:scale-105">
-                            Go to Dashboard!
-                        </Link>)
-                        : (<Link href="/api/auth/signin" className="mx-2 inline-flex underline font-bold text-gray-700 hover:scale-105">
-                            Join now!
-                        </Link>)}
+                    <Link href="/dashboard" className="mx-2 inline-flex underline font-bold text-gray-700 hover:scale-105">
+                        Start now!
+                    </Link>
                 </p>
             </div>
             <div className="hidden lg:flex lg:pl-6">

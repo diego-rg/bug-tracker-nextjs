@@ -4,19 +4,18 @@ import { connectToDatabase } from "@lib/connectToDatabase";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from '@lib/authConfig';
 
-// Middleware controla auth en API tamen. Suponse que temos session ou fara redirect a login
 export const GET = async (request, { params }) => {
     try {
         await connectToDatabase();
 
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
+        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO??? BUG en proyectos compartidos
         const session = await getServerSession(authConfig);
         if (session.user.id !== params.userId) {
             return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
         }
 
         const user = await User.findById(session.user.id);
-        const projects = await Project.find({ $or: [{ admin: user }, { developers: user }] }).populate("admin");
+        const projects = await Project.find({ $or: [{ admin: user }, { developers: user }] }).populate("admin").populate("developers");
 
         return new Response(JSON.stringify(projects), { status: 200 });
     } catch (error) {
@@ -40,7 +39,7 @@ export const POST = async (request, { params }) => {
 
         const checkName = await Project.find({ name, admin });
         if (checkName.length > 0) {
-            return new Response(JSON.stringify({ message: "Project name already in use." }), { status: 500, });
+            return new Response(JSON.stringify({ message: "Project name already in use." }), { status: 409, });
         }
 
         const project = new Project({ name, admin });

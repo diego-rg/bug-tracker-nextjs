@@ -14,16 +14,14 @@ export const GET = async (request, { params }) => {
         // E tamén que o usuario está autorizado para acceder a ese proxecto
         const session = await getServerSession(authConfig);
         // TODO: probar a entrar a un project que non é de ese user 
-        // cambiar por find{id:projectID, admin ou developer:userID }???
         const user = await User.findById(session.user.id);
-        const project = await Project.findById(params.projectId).populate("admin", "developers");
-        if (session.user.id !== params.userId || (project.admin._id.toString() !== user._id.toString() && !project.developers.includes(user))) {
+        const project = await Project.findById(params.projectId).populate("admin").populate("developers");
+        if (session.user.id !== params.userId || (project.admin._id.toString() !== user._id.toString() && !project.developers.toString().includes(user))) {
             return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
         }
 
-        const bugs = await Bug.find({ project: project });
+        const bugs = await Bug.find({ project: project }).populate("createdBy").populate("assignedTo");
 
-        // INNECESARIO???
         if (!bugs)
             return new Response(JSON.stringify({ message: "The requested project does not have bugs." }), { status: 200 });
 
@@ -42,10 +40,9 @@ export const POST = async (request, { params }) => {
         // E tamén que o usuario está autorizado para acceder a ese proxecto
         const session = await getServerSession(authConfig);
         // TODO: probar a entrar a un project que non é de ese user 
-        // cambiar por find{id:projectID, admin ou developer:userID }???
         const user = await User.findById(session.user.id);
         const project = await Project.findById(params.projectId).populate("admin", "developers");
-        if (session.user.id !== params.userId || (project.admin._id.toString() !== user._id.toString() && !project.developers.includes(user))) {
+        if (session.user.id !== params.userId || (project.admin._id.toString() !== user._id.toString() && !project.developers.toString().includes(user))) {
             return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
         }
 

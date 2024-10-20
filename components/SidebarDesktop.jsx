@@ -8,7 +8,7 @@ import { signOut } from "next-auth/react";
 export default function SidebarDesktop({ session, model, setToggleModalCreate }) {
     return (
         <div className="hidden sm:block py-4 text-gray-500 dark:text-gray-400 bg-gray-900">
-            <a className="flex justify-center items-center text-lg font-bold text-gray-800 dark:text-gray-200" href="/">
+            <a className="flex justify-center items-center text-lg font-bold text-gray-900 dark:text-gray-200" href="/">
                 <span className="text-purple-700 dark:text-purple-500">
                     <VscDebug size={20} />
                 </span>
@@ -16,7 +16,10 @@ export default function SidebarDesktop({ session, model, setToggleModalCreate })
             </a>
 
             {session?.user &&
-                <p className="mt-6 text-center text-sm text-gray-900 dark:text-white">{session?.user?.name}</p>
+                <div className="mt-6 text-center">
+                    <img className="w-5 inline" alt="User profile picture" src={session?.user?.image} />
+                    <p className="text-center text-sm text-gray-900 dark:text-white">{session?.user?.name}</p>
+                </div>
             }
 
             <ul className="mt-10">

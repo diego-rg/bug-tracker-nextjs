@@ -1,6 +1,5 @@
 "use client";
 
-
 import { RiBookOpenLine, RiQuestionLine, RiLogoutBoxLine, RiArrowGoBackFill } from "react-icons/ri";
 import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { signOut } from "next-auth/react";
@@ -30,7 +29,7 @@ export default function SidebarMobile({ session, model, setToggleModalCreate }) 
                 {/* BUTTON: OPEN SIDEBAR MOBILE */}
                 <div className="flex xl:hidden">
                     <button type="button" onClick={() => setMobileMenuOpen(true)}
-                        className="m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+                        className="m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400">
                         <span className="sr-only">Open sidebar menu</span>
                         <VscMenu className="size-6" aria-hidden="true" />
                     </button>
@@ -49,7 +48,7 @@ export default function SidebarMobile({ session, model, setToggleModalCreate }) 
                         </Link>
                         {/* BUTTON: CLOSE DROPDOWN MOBILE */}
                         <button type="button" onClick={() => setMobileMenuOpen(false)}
-                            className="m-2.5 rounded-md p-2.5 text-gray-700">
+                            className="m-2.5 rounded-md p-2.5 text-gray-400">
                             <span className="sr-only">Close main menu</span>
                             <AiOutlineClose className="size-6" aria-hidden="true" />
                         </button>

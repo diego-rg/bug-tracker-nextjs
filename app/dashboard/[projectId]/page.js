@@ -2,48 +2,27 @@
 
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import BugCard from "@components/BugCard";
 
-import BugForm from "@components/BugForm";
+import BugCard from "@components/BugCard";
+import ViewBugModal from "@components/ViewBugModal";
+import DeleteBugModal from "@components/DeleteBugModal";
+import CreateBugModal from "@components/CreateBugModal";
+import EditBugModal from "@components/EditBugModal";
 import SidebarDesktop from "@components/SidebarDesktop";
 
 export default function Bugs({ params }) {
     const { data: session } = useSession();
     const [bugs, setBugs] = useState([]);
+    const [selectedBug, setSelectedBug] = useState(null);
+    const [toggleModalViewBug, setToggleModalViewBug] = useState(false);
     const [toggleModalCreateBug, setToggleModalCreateBug] = useState(false);
-    const [submitting, setIsSubmitting] = useState(false);
-    const [info, setInfo] = useState(null);
+    const [toggleModalEditBug, setToggleModalEditBug] = useState(false);
+    const [toggleModalDeleteBug, setToggleModalDeleteBug] = useState(false);
 
     const fetchBugs = async () => {
         const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs`);
         const data = await response.json();
         setBugs(data);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        setInfo("");
-        try {
-            const formData = new FormData(e.currentTarget);
-            const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs`, {
-                method: "POST",
-                body: formData
-            });
-            const data = await response.json();
-
-            if (!response.ok) {
-                setInfo(data.message);
-                return;
-            }
-            setInfo("Bug created.");
-            if (session?.user.id) fetchBugs();
-        } catch (error) {
-            console.log(error);
-            setInfo("Unnexpected error. Try again later.");
-        } finally {
-            setIsSubmitting(false);
-        }
     };
 
     useEffect(() => {
@@ -58,7 +37,15 @@ export default function Bugs({ params }) {
                 <div className="card_grid">
                     {bugs.length > 0 ?
                         (bugs.map((bug) => (
-                            <BugCard bug={bug} session={session} params={params} key={bug._id} />
+                            <BugCard
+                                key={bug._id}
+                                bug={bug}
+                                session={session}
+                                params={params}
+                                setSelectedBug={setSelectedBug}
+                                setToggleModalViewBug={setToggleModalViewBug}
+                                setToggleModalEditBug={setToggleModalEditBug}
+                                setToggleModalDeleteBug={setToggleModalDeleteBug} />
                         ))) : (
                             <p>No bugs!</p>
                         )
@@ -66,12 +53,39 @@ export default function Bugs({ params }) {
                 </div>
             </main>
 
+            {toggleModalViewBug &&
+                <ViewBugModal
+                    setToggleModalViewBug={setToggleModalViewBug}
+                    selectedBug={selectedBug}
+                />
+            }
+
             {toggleModalCreateBug &&
-                <BugForm
+                <CreateBugModal
+                    session={session}
+                    params={params}
                     setToggleModalCreateBug={setToggleModalCreateBug}
-                    submitting={submitting}
-                    handleSubmit={handleSubmit}
-                    info={info}
+                    setBugs={setBugs}
+                />
+            }
+
+            {toggleModalEditBug &&
+                <EditBugModal
+                    session={session}
+                    params={params}
+                    setToggleModalEditBug={setToggleModalEditBug}
+                    setBugs={setBugs}
+                    selectedBug={selectedBug}
+                />
+            }
+
+            {toggleModalDeleteBug &&
+                <DeleteBugModal
+                    session={session}
+                    params={params}
+                    setToggleModalDeleteBug={setToggleModalDeleteBug}
+                    setBugs={setBugs}
+                    selectedBug={selectedBug}
                 />
             }
         </div>

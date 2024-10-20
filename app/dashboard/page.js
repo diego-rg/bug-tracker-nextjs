@@ -4,16 +4,19 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
 import ProjectCard from "@components/ProjectCard";
-import ProjectForm from "@components/ProjectForm";
+import CreateProjectModal from "@components/CreateProjectModal";
+import DeleteProjectModal from "@components/DeleteProjectModal";
+import EditProjectModal from "@components/EditProjectModal";
 import SidebarDesktop from "@components/SidebarDesktop";
 import SidebarMobile from "@components/SidebarMobile";
 
 export default function Projects() {
     const { data: session } = useSession();
     const [projects, setProjects] = useState([]);
+    const [selectedProject, setSelectedProject] = useState(null);
     const [toggleModalCreateProject, setToggleModalCreateProject] = useState(false);
-    const [submitting, setIsSubmitting] = useState(false);
-    const [info, setInfo] = useState(null);
+    const [toggleModalEditProject, setToggleModalEditProject] = useState(false);
+    const [toggleModalDeleteProject, setToggleModalDeleteProject] = useState(false);
 
     const fetchProjects = async () => {
         const response = await fetch(`/api/users/${session?.user.id}/projects`);
@@ -21,47 +24,27 @@ export default function Projects() {
         setProjects(data);
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        setInfo("");
-        try {
-            const formData = new FormData(e.currentTarget);
-            const response = await fetch(`/api/users/${session?.user.id}/projects`, {
-                method: "POST",
-                body: formData
-            });
-            const data = await response.json();
-
-            if (!response.ok) {
-                setInfo(data.message);
-                return;
-            }
-            setInfo("Project created.");
-            if (session?.user.id) fetchProjects();
-        } catch (error) {
-            console.log(error);
-            setInfo("Unnexpected error. Try again later.");
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
     useEffect(() => {
         if (session?.user.id) fetchProjects();
     }, [session?.user.id]);
 
     return (
-        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
             <SidebarDesktop session={session} model={"Project"} setToggleModalCreate={setToggleModalCreateProject} />
 
-            <main className="w-full bg-gray-200 dark:bg-gray-700">
+            <main className="w-full bg-gray-200 dark:bg-gray-950">
                 <SidebarMobile session={session} model={"Project"} setToggleModalCreate={setToggleModalCreateProject} />
 
                 <div className="card_grid p-2 sm:p-10">
                     {projects.length > 0 ?
                         (projects.map((project) => (
-                            <ProjectCard project={project} key={project._id} />
+                            <ProjectCard
+                                key={project._id}
+                                project={project}
+                                setSelectedProject={setSelectedProject}
+                                setToggleModalDeleteProject={setToggleModalDeleteProject}
+                                setToggleModalEditProject={setToggleModalEditProject}
+                            />
                         ))) : (
                             <p>No projects!</p>
                         )
@@ -70,11 +53,28 @@ export default function Projects() {
             </main>
 
             {toggleModalCreateProject &&
-                <ProjectForm
+                <CreateProjectModal
+                    session={session}
+                    setProjects={setProjects}
                     setToggleModalCreateProject={setToggleModalCreateProject}
-                    submitting={submitting}
-                    handleSubmit={handleSubmit}
-                    info={info}
+                />
+            }
+
+            {toggleModalEditProject &&
+                <EditProjectModal
+                    session={session}
+                    setProjects={setProjects}
+                    selectedProject={selectedProject}
+                    setToggleModalEditProject={setToggleModalEditProject}
+                />
+            }
+
+            {toggleModalDeleteProject &&
+                <DeleteProjectModal
+                    session={session}
+                    setProjects={setProjects}
+                    selectedProject={selectedProject}
+                    setToggleModalDeleteProject={setToggleModalDeleteProject}
                 />
             }
         </div>
