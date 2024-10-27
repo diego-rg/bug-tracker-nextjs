@@ -5,24 +5,20 @@ import { connectToDatabase } from "@lib/connectToDatabase";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from '@lib/authConfig';
 
-// Middleware controla auth en API tamen. Suponse que temos session ou fara redirect a login
 export const GET = async (request, { params }) => {
     try {
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
-        // E tamén que o usuario está autorizado para acceder a ese proxecto
         await connectToDatabase();
         const session = await getServerSession(authConfig);
-        // TODO: probar a entrar a un project que non é de ese user 
-        // cambiar por find{id:projectID, admin ou developer:userID }???
+
+        // Verificar que o usuario ten permiso para ver: que é admin do proxecto ou desenvolvedor
         const user = await User.findById(session.user.id);
-        const project = await Project.findById(params.projectId).populate("admin", "developers");
-        if (session.user.id !== params.userId || (project.admin._id.toString() !== user._id.toString() && !project.developers.toString().includes(user))) {
+        const project = await Project.findById(params.projectId).populate("admin").populate("developers");
+        if (project.admin._id.toString() !== user._id.toString() && !project.developers.toString().includes(user)) {
             return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
         }
 
         const bug = await Bug.findById(params.bugId);
 
-        // INNECESARIO???
         if (!bug)
             return new Response(JSON.stringify({ message: "The requested bug does not exist." }), { status: 200 });
 
@@ -35,14 +31,9 @@ export const GET = async (request, { params }) => {
 export const PATCH = async (request, { params }) => {
     try {
         await connectToDatabase();
-
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         const session = await getServerSession(authConfig);
-        if (session.user.id !== params.userId) {
-            return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
-        }
 
-        // Verificar que o usuario ten permiso para editar: que é admin do proxecto ou está asignado ao bug
+        // Verificar que o usuario ten permiso para editar: que é admin do proxecto ou desenvolvedor
         const user = await User.findById(session.user.id);
         const project = await Project.findById(params.projectId).populate("admin").populate("developers");
         const bug = await Bug.findById(params.bugId).populate("createdBy", "assignedTo");
@@ -51,8 +42,6 @@ export const PATCH = async (request, { params }) => {
         }
 
         const data = await request.formData();
-
-        console.log(data);
 
         const name = data.get("name");
         const description = data.get("description");
@@ -77,12 +66,11 @@ export const PATCH = async (request, { params }) => {
                 return new Response(JSON.stringify({ message: "There are no users with that email in this project." }), { status: 409, });
             }
 
-            const saveBug = await Bug.findByIdAndUpdate(bug._id.toString(), { name, description, status, priority, severity, $addToSet: { "assignedTo": checkDeveloper } });
+            const saveBug = await Bug.findByIdAndUpdate(bug._id.toString(), { name, description, status: "assigned", priority, severity, $addToSet: { "assignedTo": checkDeveloper } });
             if (!saveBug)
                 return new Response(JSON.stringify({ message: "Error while updating the bug data." }), { status: 500 });
 
             return new Response(JSON.stringify({ message: "Bug updated succesfully." }), { status: 200 });
-
         }
 
         const saveBug = await Bug.findByIdAndUpdate(bug._id.toString(), { name, description, status, priority, severity });
@@ -99,12 +87,7 @@ export const PATCH = async (request, { params }) => {
 export const DELETE = async (request, { params }) => {
     try {
         await connectToDatabase();
-
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         const session = await getServerSession(authConfig);
-        if (session.user.id !== params.userId) {
-            return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
-        }
 
         // Verificar que o usuario ten permiso para eliminar: que é admin do proxecto
         const user = await User.findById(session.user.id);
@@ -115,8 +98,8 @@ export const DELETE = async (request, { params }) => {
 
         await Bug.findByIdAndDelete(params.bugId);
 
-        return new Response(JSON.stringify({ message: "Project deleted succesfully." }), { status: 200 });
+        return new Response(JSON.stringify({ message: "Bug deleted succesfully." }), { status: 200 });
     } catch (error) {
-        return new Response(JSON.stringify({ message: "Error deleting the project. " + error }), { status: 500, });
+        return new Response(JSON.stringify({ message: "Error deleting the bug. " + error }), { status: 500, });
     }
 };

@@ -4,22 +4,18 @@ import { connectToDatabase } from "@lib/connectToDatabase";
 import { getServerSession } from "next-auth/next";
 import { authConfig } from '@lib/authConfig';
 
-// Middleware controla auth en API tamen. Suponse que temos session ou fara redirect a login
 export const GET = async (request, { params }) => {
     try {
         await connectToDatabase();
-
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
-        // E tamén que o usuario está autorizado para acceder a ese proxecto
         const session = await getServerSession(authConfig);
-        // TODO: probar a entrar a un project que non é de ese user 
+
+        // Si o user non é admin ou developer, non ten acceso ao proxecto (por si pega id na url)
         const user = await User.findById(session.user.id);
         const project = await Project.findById(params.projectId).populate("admin").populate("developers");
-        if (session.user.id !== params.userId || (project.admin._id.toString() !== user._id.toString() && !project.developers.toString().includes(user))) {
+        if (project.admin._id.toString() !== user._id.toString() && !project.developers.toString().includes(user)) {
             return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
         }
 
-        // INNECESARIO???
         if (!project)
             return new Response(JSON.stringify({ message: "The requested project does not exist." }), { status: 200 });
 
@@ -32,16 +28,11 @@ export const GET = async (request, { params }) => {
 export const PATCH = async (request, { params }) => {
     try {
         await connectToDatabase();
-
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         const session = await getServerSession(authConfig);
-        if (session.user.id !== params.userId) {
-            return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
-        }
 
-        // Verificar que o usuario ten permiso para eliminar: que é admin do proxecto
+        // Verificar que o usuario ten permiso para editar: que é admin do proxecto
         const user = await User.findById(session.user.id);
-        const project = await Project.findById(params.projectId).populate("admin", "developers");
+        const project = await Project.findById(params.projectId).populate("admin");
         if (project.admin._id.toString() !== user._id.toString()) {
             return new Response(JSON.stringify({ message: "Only admins can edit their projects." }), { status: 403 });
         }
@@ -84,12 +75,7 @@ export const PATCH = async (request, { params }) => {
 export const DELETE = async (request, { params }) => {
     try {
         await connectToDatabase();
-
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         const session = await getServerSession(authConfig);
-        if (session.user.id !== params.userId) {
-            return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
-        }
 
         // Verificar que o usuario ten permiso para eliminar: que é admin do proxecto
         const user = await User.findById(session.user.id);

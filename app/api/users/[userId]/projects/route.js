@@ -7,12 +7,7 @@ import { authConfig } from '@lib/authConfig';
 export const GET = async (request, { params }) => {
     try {
         await connectToDatabase();
-
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO??? BUG en proyectos compartidos
         const session = await getServerSession(authConfig);
-        if (session.user.id !== params.userId) {
-            return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
-        }
 
         const user = await User.findById(session.user.id);
         const projects = await Project.find({ $or: [{ admin: user }, { developers: user }] }).populate("admin").populate("developers");
@@ -26,12 +21,7 @@ export const GET = async (request, { params }) => {
 export const POST = async (request, { params }) => {
     try {
         await connectToDatabase();
-
-        // Verificamos que o usuario que sae nos params da request e o mismo que o da session. INNECESARIO???
         const session = await getServerSession(authConfig);
-        if (session.user.id !== params.userId) {
-            return new Response(JSON.stringify({ message: "Your profile does not have access to this resource." }), { status: 403 });
-        }
 
         const data = await request.formData();
         const name = data.get("name");

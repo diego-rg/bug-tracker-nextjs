@@ -3,16 +3,19 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
+import Loader from "@components/Loader";
 import BugCard from "@components/BugCard";
 import ViewBugModal from "@components/ViewBugModal";
 import DeleteBugModal from "@components/DeleteBugModal";
 import CreateBugModal from "@components/CreateBugModal";
 import EditBugModal from "@components/EditBugModal";
 import SidebarDesktop from "@components/SidebarDesktop";
+import SidebarMobile from "@components/SidebarMobile";
 
 export default function Bugs({ params }) {
     const { data: session } = useSession();
     const [bugs, setBugs] = useState([]);
+    const [info, setInfo] = useState("");
     const [selectedBug, setSelectedBug] = useState(null);
     const [toggleModalViewBug, setToggleModalViewBug] = useState(false);
     const [toggleModalCreateBug, setToggleModalCreateBug] = useState(false);
@@ -20,8 +23,12 @@ export default function Bugs({ params }) {
     const [toggleModalDeleteBug, setToggleModalDeleteBug] = useState(false);
 
     const fetchBugs = async () => {
+        setInfo(<Loader />);
         const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs`);
         const data = await response.json();
+        if (data.status != 200) {
+            setInfo(data.message);
+        }
         setBugs(data);
     };
 
@@ -34,6 +41,8 @@ export default function Bugs({ params }) {
             <SidebarDesktop session={session} model={"Bug"} setToggleModalCreate={setToggleModalCreateBug} />
 
             <main className="w-full bg-gray-200 dark:bg-gray-700 p-2 sm:p-10">
+                <SidebarMobile session={session} model={"Project"} setToggleModalCreateBug={setToggleModalCreateBug} />
+
                 <div className="card_grid">
                     {bugs.length > 0 ?
                         (bugs.map((bug) => (
@@ -47,7 +56,7 @@ export default function Bugs({ params }) {
                                 setToggleModalEditBug={setToggleModalEditBug}
                                 setToggleModalDeleteBug={setToggleModalDeleteBug} />
                         ))) : (
-                            <p>No bugs!</p>
+                            <div>{info}</div>
                         )
                     }
                 </div>
@@ -55,6 +64,8 @@ export default function Bugs({ params }) {
 
             {toggleModalViewBug &&
                 <ViewBugModal
+                    session={session}
+                    params={params}
                     setToggleModalViewBug={setToggleModalViewBug}
                     selectedBug={selectedBug}
                 />

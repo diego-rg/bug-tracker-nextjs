@@ -6,7 +6,7 @@ import { RiDeleteBin2Line, RiEdit2Line } from "react-icons/ri";
 export default function ProjectCard({ project, setSelectedProject, setToggleModalEditProject, setToggleModalDeleteProject }) {
     return (
         <div className="card">
-            <h2 className="card_title">{project.name}</h2>
+            <h2 className="card_title">{project.name.length < 15 ? project.name : `${project.name.substr(0, 18)}...`}</h2>
             <p className="card_list">Admin: {project.admin.username}</p>
             <p className="card_list">Created: {getDate(project.createdAt)}</p>
             <div className="flex justify-between pt-2">

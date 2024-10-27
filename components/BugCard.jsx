@@ -5,7 +5,7 @@ import { RiDeleteBin2Line, RiEdit2Line } from "react-icons/ri";
 export default function BugCard({ bug, setSelectedBug, setToggleModalViewBug, setToggleModalEditBug, setToggleModalDeleteBug }) {
     return (
         <div className="card">
-            <h2 className="card_title">{bug.name}</h2>
+            <h2 className="card_title">{bug.name.length < 15 ? bug.name : `${bug.name.substr(0, 15)}...`}</h2>
             <p className="card_list">Status: {bug.status}</p>
             <p className="card_list">Priority: {bug.priority}</p>
             <p className="card_list">Severity: {bug.severity}</p>

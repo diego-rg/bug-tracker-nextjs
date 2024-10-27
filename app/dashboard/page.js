@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
+import Loader from "@components/Loader";
 import ProjectCard from "@components/ProjectCard";
 import CreateProjectModal from "@components/CreateProjectModal";
 import DeleteProjectModal from "@components/DeleteProjectModal";
@@ -12,6 +13,7 @@ import SidebarMobile from "@components/SidebarMobile";
 
 export default function Projects() {
     const { data: session } = useSession();
+    const [info, setInfo] = useState("");
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
     const [toggleModalCreateProject, setToggleModalCreateProject] = useState(false);
@@ -19,8 +21,12 @@ export default function Projects() {
     const [toggleModalDeleteProject, setToggleModalDeleteProject] = useState(false);
 
     const fetchProjects = async () => {
+        setInfo(<Loader />);
         const response = await fetch(`/api/users/${session?.user.id}/projects`);
         const data = await response.json();
+        if (data.status != 200) {
+            setInfo(data.message);
+        }
         setProjects(data);
     };
 
@@ -46,7 +52,7 @@ export default function Projects() {
                                 setToggleModalEditProject={setToggleModalEditProject}
                             />
                         ))) : (
-                            <p>No projects!</p>
+                            <div>{info}</div>
                         )
                     }
                 </div>

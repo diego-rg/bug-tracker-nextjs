@@ -8,12 +8,12 @@ const CommentSchema = new Schema({
     bug: {
         type: Schema.Types.ObjectId,
         ref: 'Bug',
-        required: [true, "You must provide a bug for the comment."],
+        required: [true, "You must provide a bug to create the comment."],
     },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: [true, "You must provide a project for the comment."],
+        required: [true, "You must provide a user to create the comment."],
     },
 },
     { timestamps: true }

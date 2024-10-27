@@ -4,7 +4,7 @@ const ProjectSchema = new Schema({
     name: {
         type: String,
         required: [true, "You must provide a name for the project."],
-        maxlength: 25
+        maxlength: 15
     },
     admin: {
         type: Schema.Types.ObjectId,
