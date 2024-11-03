@@ -13,7 +13,7 @@ export default function SidebarMobile({ session, model, setToggleModalCreate }) 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <header className="sm:hidden inset-x-0 top-0 z-30 bg-gray-900">
+        <header className="sm:hidden inset-x-0 top-0 z-30 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900">
             {/* NAV MOBILE */}
             <nav aria-label="Global" className="flex items-center justify-between p-2">
                 <div className="flex lg:flex-1">
@@ -39,7 +39,7 @@ export default function SidebarMobile({ session, model, setToggleModalCreate }) 
             {/* MOBILE SIDEBAR MENU*/}
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="sm:hidden">
                 <div className="fixed inset-0 z-30" />
-                <DialogPanel className="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto bg-gray-900 p-2">
+                <DialogPanel className="fixed inset-y-0 right-0 z-30 w-full overflow-y-auto text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 p-2">
                     <div className="flex items-center justify-between">
                         {/* LOGO: INSIDE SIDEBAR MENU */}
                         <Link href="/" className="flex m-1.5 p-1.5 text-purple-600">

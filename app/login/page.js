@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 
-import { CgMoon, CgSun } from "react-icons/cg";
 import { FaGithub, FaUserCircle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { VscDebug } from "react-icons/vsc";
@@ -13,13 +12,29 @@ import { VscDebug } from "react-icons/vsc";
 const Login = () => {
     const { data: session } = useSession();
     const router = useRouter();
+    const [theme, setTheme] = useState("");
 
     useEffect(() => {
         if (session?.user)
             router.push('/dashboard');
     }, [session]);
 
-    const darkMode = true;
+    // Dark Mode
+    useEffect(() => {
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            setTheme("dark");
+        } else {
+            setTheme("light");
+        }
+    }, []);
+
+    useEffect(() => {
+        if (theme == "dark") {
+            document.querySelector("html").classList.add("dark");
+        } else {
+            document.querySelector("html").classList.remove("dark");
+        }
+    }, [theme]);
 
     return (
         <div className="flex justify-center items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900 bg-[url('../public/images/login.png')]">
@@ -28,9 +43,6 @@ const Login = () => {
                 <div className="w-full">
                     <div className="flex justify-between items-center mb-8">
                         <h1 className="text-xl font-semibold text-gray-700 dark:text-gray-200">Login</h1>
-                        <button className="btn-menu" aria-label="Toggle color mode">
-                            {darkMode ? <CgSun size={27} /> : <CgMoon size={27} />}
-                        </button>
                     </div>
 
                     <div className="flex justify-center items-center text-2xl font-bold text-gray-800 dark:text-gray-200 pt-8 pb-2">

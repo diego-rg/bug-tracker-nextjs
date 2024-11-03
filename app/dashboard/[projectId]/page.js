@@ -11,11 +11,19 @@ import CreateBugModal from "@components/CreateBugModal";
 import EditBugModal from "@components/EditBugModal";
 import SidebarDesktop from "@components/SidebarDesktop";
 import SidebarMobile from "@components/SidebarMobile";
+import { CgMoon, CgSun } from "react-icons/cg";
 
 export default function Bugs({ params }) {
     const { data: session } = useSession();
     const [bugs, setBugs] = useState([]);
+    const [term, setTerm] = useState("");
+    const [formData, setFormData] = useState({
+        status: "",
+        priority: "",
+        severity: ""
+    });
     const [info, setInfo] = useState("");
+    const [theme, setTheme] = useState("");
     const [selectedBug, setSelectedBug] = useState(null);
     const [toggleModalViewBug, setToggleModalViewBug] = useState(false);
     const [toggleModalCreateBug, setToggleModalCreateBug] = useState(false);
@@ -36,16 +44,113 @@ export default function Bugs({ params }) {
         if (session?.user.id) fetchBugs();
     }, [session?.user.id]);
 
+    // Dark Mode
+    useEffect(() => {
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            setTheme("dark");
+        } else {
+            setTheme("light");
+        }
+    }, []);
+
+    const changeTheme = () => {
+        setTheme(theme == "light" ? "dark" : "light");
+    };
+
+    //Search
+    const handleChange = (e) => {
+        setTerm(e.target.value
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, ""));
+    };
+
+    const handleChangeSelect = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevState) => ({ ...prevState, [name]: value }));
+    };
+
+    useEffect(() => {
+        if (theme == "dark") {
+            document.querySelector("html").classList.add("dark");
+        } else {
+            document.querySelector("html").classList.remove("dark");
+        }
+    }, [theme]);
+
     return (
-        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
             <SidebarDesktop session={session} model={"Bug"} setToggleModalCreate={setToggleModalCreateBug} />
 
-            <main className="w-full bg-gray-200 dark:bg-gray-700 p-2 sm:p-10">
+            <main className="w-full bg-gray-200 dark:bg-gray-950">
                 <SidebarMobile session={session} model={"Project"} setToggleModalCreateBug={setToggleModalCreateBug} />
 
-                <div className="card_grid">
+                <nav className="text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 px-5 py-2 sm:py-5 flex justify-between flex-wrap">
+                    <div className="flex">
+                        <div className="m-1">
+                            <label htmlFor="status" className="sr-only"> Status</label>
+                            <select as="select" id="status" name="status" className="form_input" value={formData.status}
+                                onChange={handleChangeSelect}>
+                                <option value="" defaultValue>Status</option>
+                                <option value="new">New</option>
+                                <option value="assigned">Assigned</option>
+                                <option value="fixed">Fixed</option>
+                            </select>
+                        </div>
+
+                        <div className="m-1">
+                            <label htmlFor="priority" className="sr-only"> Priority</label>
+                            <select as="select" id="priority" name="priority" className="form_input" value={formData.priority}
+                                onChange={handleChangeSelect}>
+                                <option value="" defaultValue>Priority</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <div className="m-1">
+                            <label htmlFor="severity" className="sr-only">Severity</label>
+                            <select as="select" id="severity" name="severity" className="form_input" value={formData.severity}
+                                onChange={handleChangeSelect}>
+                                <option value="" defaultValue>Severity</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div className="m-1">
+                        <label htmlFor="term" className="sr-only">Search</label>
+                        <input className='form_input' type='text' placeholder='Search for bugs' name="term" id="term" value={term}
+                            onChange={handleChange} />
+                    </div>
+
+                    <button className="btn_menu m-1" onClick={changeTheme} aria-label="Toggle color mode">
+                        {theme == "light" ? <CgSun size={27} /> : <CgMoon size={27} />}
+                    </button>
+                </nav>
+
+                <div className="card_grid p-2 sm:p-10">
                     {bugs.length > 0 ?
-                        (bugs.map((bug) => (
+                        (bugs.filter(
+                            (bug) =>
+                            ((bug.name
+                                .toLowerCase()
+                                .normalize("NFD")
+                                .replace(/[\u0300-\u036f]/g, "")
+                                .includes(term) ||
+                                bug.description
+                                    .toLowerCase()
+                                    .normalize("NFD")
+                                    .replace(/[\u0300-\u036f]/g, "")
+                                    .includes(term)) &&
+                                bug.status.includes(formData.status) &&
+                                bug.priority.includes(formData.priority) &&
+                                bug.severity.includes(formData.severity))
+                        ).map((bug) => (
                             <BugCard
                                 key={bug._id}
                                 bug={bug}
