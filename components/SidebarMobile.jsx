@@ -1,6 +1,6 @@
 "use client";
 
-import { RiBookOpenLine, RiQuestionLine, RiLogoutBoxLine, RiArrowGoBackFill } from "react-icons/ri";
+import { RiBookOpenLine, RiQuestionLine, RiLogoutBoxLine } from "react-icons/ri";
 import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { signOut } from "next-auth/react";
 import { Dialog, DialogPanel } from "@headlessui/react";
@@ -62,23 +62,6 @@ export default function SidebarMobile({ session, model, setToggleModalCreate }) 
                                     <span>Create {model}</span>
                                 </button>
                             </li>
-
-                            {model == "Project" ? (
-                                <li className="relative p-3">
-                                    <a className="btn_sidebar btn_menu" href="/">
-                                        <RiArrowGoBackFill size={40} />
-                                        <span>Go Back</span>
-                                    </a>
-                                </li>
-                            ) : (
-                                <li className="relative p-3">
-                                    <a className="btn_sidebar btn_menu" href="/dashboard">
-                                        <RiArrowGoBackFill size={40} />
-                                        <span>Go Back</span>
-                                    </a>
-                                </li>
-                            )
-                            }
 
                             <li className="relative p-3">
                                 <a className="btn_sidebar btn_menu" href="https://github.com/diego-rg/bug-tracker-nextjs">

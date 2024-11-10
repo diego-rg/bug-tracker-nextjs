@@ -1,0 +1,15 @@
+# ESTUDO DE NECESIDADES E MODELO DE NEGOCIO
+
+## Xustificación das necesidades
+Debido a crecente complexidade do software actual, cada vez é máis difícil xestionar o proceso de creación deste. Unha das dificultades presentase cando desexamos administrar as diferentes issues que aparecen e como afrontalas. A existencia de unha ferramenta que permita ter información ordeada, centralizada e estruturada de cada un destes bugs ou funcionalidades que van surxindo permitirá unha maior velocidade e eficiencia no proceso de desenvolvemento de software. A versión inicial da aplicación presentada permitira a creación de proxectos nos que se poderán engadir os bugs que vaian surxindo, clasificalos según a súa severidade, prioridade, etc ou asignalos aos programadores que deban solucionalos.
+Esta versión inicial, será realizada polo creador da aplicación e tería unha duración estimada de 3 meses. Dado a natureza open source e gratuíta deste, os diferentes colaboradores poderán ampliar as funcionalidades dela, coma a posibilidade de diferenciar entre bugs e features, creación dun calendario de actividades e obxetivos para cada proxecto, ampliación da información presentada en cada bug (como comentarios de equipo en cada un deles), etc
+
+## Viabilidade
+A versión inicial centrarase en ofrecer as funcionalidades básicas que cubran os mínimos necesarios para a xestión dos bugs existentes en cada proxecto, polo que podería ser levada a cabo polo creador do proxecto. Para a posta en producción só será necesaria a contratación dun servicio de hosting e dominio para a aplicación, sendo tamén posible o uso de servizos gratuítos (Vercel, Railway, etc). Dado o carácter gratuíto do proxecto, os custos do proxecto deberán ser cubertos mediante donacións dos usuarios. As posibles ampliacións futuras deberán realizarse mediante a colaboración dos citados usuarios no código do proxecto.
+Dada a existencia de productos similares que cubren estas necesidades (coma Jira), o proxecto centrarase no carácter gratuíto e open source deste, onde os colaboradores poderán ampliar o proxecto segundo as necesidades que teñan, facéndoo algo exclusivo pola posibilidade de personalizalo segundo as necesidades da comunidade actual de programadores.
+
+## Comercialización
+A promoción do produto realizarase mediante diferentes procedementos, todos eles centrados no mundo do software, xa que os programadores serán os usuarios da aplicación.
+* Creación de unha páxina web coas medidas necesarias para mellorar o SEO (HTML semántico, renderizado no servidor dos compoñentes non interactivos, uso de metadata en cada páxina, etc) e que integrará tamén a propia aplicación.
+* Promoción nas diferentes comunidades e plataformas web de software open source e desenvolvemento de software, mediante a presentación do proxecto.
+* Presencia en redes sociais, preferentemente nas máis comúns no secot do dsenvolvemento (LinkedIn, X, etc).

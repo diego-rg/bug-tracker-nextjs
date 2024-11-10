@@ -12,6 +12,7 @@ import EditBugModal from "@components/EditBugModal";
 import SidebarDesktop from "@components/SidebarDesktop";
 import SidebarMobile from "@components/SidebarMobile";
 import { CgMoon, CgSun } from "react-icons/cg";
+import { MdOutlineArrowBack } from "react-icons/md";
 
 export default function Bugs({ params }) {
     const { data: session } = useSession();
@@ -85,8 +86,12 @@ export default function Bugs({ params }) {
             <main className="w-full bg-gray-200 dark:bg-gray-950">
                 <SidebarMobile session={session} model={"Project"} setToggleModalCreateBug={setToggleModalCreateBug} />
 
-                <nav className="text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 px-5 py-2 sm:py-5 flex justify-between flex-wrap">
-                    <div className="flex">
+                <nav className="text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 px-5 py-2 sm:py-5 flex justify-between">
+                    <div className="flex flex-wrap">
+                        <a className="btn_menu mr-2" href="/dashboard">
+                            <MdOutlineArrowBack size={27} />
+                        </a>
+
                         <div className="m-1">
                             <label htmlFor="status" className="sr-only"> Status</label>
                             <select as="select" id="status" name="status" className="form_input" value={formData.status}
@@ -119,13 +124,12 @@ export default function Bugs({ params }) {
                                 <option value="high">High</option>
                             </select>
                         </div>
-                    </div>
 
-
-                    <div className="m-1">
-                        <label htmlFor="term" className="sr-only">Search</label>
-                        <input className='form_input' type='text' placeholder='Search for bugs' name="term" id="term" value={term}
-                            onChange={handleChange} />
+                        <div className="m-1">
+                            <label htmlFor="term" className="sr-only">Search</label>
+                            <input className='form_input' type='text' placeholder='Search for bugs' name="term" id="term" value={term}
+                                onChange={handleChange} />
+                        </div>
                     </div>
 
                     <button className="btn_menu m-1" onClick={changeTheme} aria-label="Toggle color mode">

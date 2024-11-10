@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 export default function EditBugModal({ session, params, selectedBug, setToggleModalEditBug, setBugs }) {
     const [submitting, setIsSubmitting] = useState(false);
     const [info, setInfo] = useState("");
+    const [term, setTerm] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+    const [selectedOption, setSelectedOption] = useState("");
     const [formData, setFormData] = useState({
         name: selectedBug.name,
         status: selectedBug.status,
@@ -18,10 +21,36 @@ export default function EditBugModal({ session, params, selectedBug, setToggleMo
         setBugs(data);
     };
 
+    const fetchDevelopers = async () => {
+        const response = await fetch(`/api/users?q=${term}`);
+        const data = await response.json();
+        setSuggestions(data);
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevState) => ({ ...prevState, [name]: value }));
     };
+
+    const handleSearch = (e) => {
+        setTerm(e.target.value);
+    };
+
+    const handleSelect = (e) => {
+        setTerm(e.currentTarget.innerText);
+        setSelectedOption((e.currentTarget.innerText));
+        setSuggestions([]);
+    };
+
+    useEffect(() => {
+        const debounce = setTimeout(() => {
+            if (term.length > 0 && term != selectedOption)
+                fetchDevelopers();
+            else
+                setSuggestions([]);
+        }, 1000);
+        return () => clearTimeout(debounce);
+    }, [term]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -111,9 +140,17 @@ export default function EditBugModal({ session, params, selectedBug, setToggleMo
                     </div>
 
                     <div className="pb-4">
-                        <label htmlFor="assignedTo" className="form_label">Add developer:</label>
-                        <input className='form_input' type='email' placeholder='Email of the developer' name="assignedTo" id="assignedTo" />
+                        <label htmlFor="developer" className="form_label">Add developer:</label>
+                        <input className='form_input' type='email' placeholder='Email of the developer' value={term}
+                            onChange={handleSearch} name="developer" id="developer" />
+                        {suggestions.length > 0 && (
+                            suggestions.map((sug) => (
+                                <p onClick={handleSelect} className="text-white block cursor-pointer" key={sug.email} id={sug.email}>{sug.email}</p>
+                            ))
+                        )
+                        }
                     </div>
+
                     <div className="pb-4">
                         <p className="form_label">Devs working in the bug:</p>
                         {selectedBug.assignedTo.length > 0 ?

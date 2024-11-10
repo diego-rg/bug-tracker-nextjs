@@ -48,7 +48,7 @@ export const PATCH = async (request, { params }) => {
         const status = data.get("status");
         const priority = data.get("priority");
         const severity = data.get("severity");
-        const assignedTo = data.get("assignedTo");
+        const assignedTo = data.get("developer");
 
         const checkName = await Bug.find({ name, project });
         if (checkName.length > 0 && checkName._id === project._id) {

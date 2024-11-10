@@ -11,8 +11,9 @@ import EditProjectModal from "@components/EditProjectModal";
 import SidebarDesktop from "@components/SidebarDesktop";
 import SidebarMobile from "@components/SidebarMobile";
 import { CgMoon, CgSun } from "react-icons/cg";
-
+import { MdOutlineArrowBack } from "react-icons/md";
 export default function Projects() {
+
     const { data: session } = useSession();
     const [info, setInfo] = useState("");
     const [theme, setTheme] = useState("");
@@ -74,10 +75,16 @@ export default function Projects() {
                 <SidebarMobile session={session} model={"Project"} setToggleModalCreate={setToggleModalCreateProject} />
 
                 <nav className="text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-900 px-5 py-2 sm:py-5 flex justify-between">
-                    <div>
-                        <label htmlFor="term" className="sr-only">Search</label>
-                        <input className='form_input' type='text' placeholder='Search for projects' name="term" id="term" value={term}
-                            onChange={handleChange} />
+                    <div className="flex">
+                        <a className="btn_menu mr-2" href="/">
+                            <MdOutlineArrowBack size={27} />
+                        </a>
+
+                        <div>
+                            <label htmlFor="term" className="sr-only">Search</label>
+                            <input className='form_input' type='text' placeholder='Search for projects' name="term" id="term" value={term}
+                                onChange={handleChange} />
+                        </div>
                     </div>
 
                     <button className="btn_menu" onClick={changeTheme} aria-label="Toggle color mode">
