@@ -33,7 +33,7 @@ export default function Bugs({ params }) {
 
     const fetchBugs = async () => {
         setInfo(<Loader />);
-        const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs`);
+        const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs/search?q=${term}&status=${formData.status}&priority=${formData.priority}&severity=${formData.severity}`);
         const data = await response.json();
         if (data.status != 200) {
             setInfo(data.message);
@@ -42,8 +42,11 @@ export default function Bugs({ params }) {
     };
 
     useEffect(() => {
-        if (session?.user.id) fetchBugs();
-    }, [session?.user.id]);
+        const debounce = setTimeout(() => {
+            if (session?.user.id) fetchBugs();
+        }, 1000);
+        return () => clearTimeout(debounce);
+    }, [session?.user.id, term, formData]);
 
     // Dark Mode
     useEffect(() => {
@@ -139,22 +142,7 @@ export default function Bugs({ params }) {
 
                 <div className="card_grid p-2 sm:p-10">
                     {bugs.length > 0 ?
-                        (bugs.filter(
-                            (bug) =>
-                            ((bug.name
-                                .toLowerCase()
-                                .normalize("NFD")
-                                .replace(/[\u0300-\u036f]/g, "")
-                                .includes(term) ||
-                                bug.description
-                                    .toLowerCase()
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, "")
-                                    .includes(term)) &&
-                                bug.status.includes(formData.status) &&
-                                bug.priority.includes(formData.priority) &&
-                                bug.severity.includes(formData.severity))
-                        ).map((bug) => (
+                        (bugs.map((bug) => (
                             <BugCard
                                 key={bug._id}
                                 bug={bug}
@@ -165,7 +153,7 @@ export default function Bugs({ params }) {
                                 setToggleModalEditBug={setToggleModalEditBug}
                                 setToggleModalDeleteBug={setToggleModalDeleteBug} />
                         ))) : (
-                            <div>{info}</div>
+                            <div className="dark:text-white">{info}</div>
                         )
                     }
                 </div>

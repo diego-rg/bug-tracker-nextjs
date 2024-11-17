@@ -26,7 +26,7 @@ export default function Projects() {
 
     const fetchProjects = async () => {
         setInfo(<Loader />);
-        const response = await fetch(`/api/users/${session?.user.id}/projects`);
+        const response = await fetch(`/api/users/${session?.user.id}/projects/search?q=${term}`);
         const data = await response.json();
         if (data.status != 200) {
             setInfo(data.message);
@@ -35,8 +35,11 @@ export default function Projects() {
     };
 
     useEffect(() => {
-        if (session?.user.id) fetchProjects();
-    }, [session?.user.id]);
+        const debounce = setTimeout(() => {
+            if (session?.user.id) fetchProjects();
+        }, 1000);
+        return () => clearTimeout(debounce);
+    }, [session?.user.id, term]);
 
     // Dark Mode
     useEffect(() => {
@@ -94,14 +97,7 @@ export default function Projects() {
 
                 <div className="card_grid p-2 sm:p-10">
                     {projects.length > 0 ?
-                        (projects.filter(
-                            (project) =>
-                            (project.name
-                                .toLowerCase()
-                                .normalize("NFD")
-                                .replace(/[\u0300-\u036f]/g, "")
-                                .includes(term))
-                        ).map((project) => (
+                        (projects.map((project) => (
                             <ProjectCard
                                 key={project._id}
                                 project={project}
@@ -110,7 +106,7 @@ export default function Projects() {
                                 setToggleModalEditProject={setToggleModalEditProject}
                             />
                         ))) : (
-                            <div>{info}</div>
+                            <div className="dark:text-white">{info}</div>
                         )
                     }
                 </div>
