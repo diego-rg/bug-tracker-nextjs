@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-export default function EditBugModal({ session, params, selectedBug, setToggleModalEditBug, setBugs }) {
+export default function EditBugModal({ session, term, searchFormData, params, selectedBug, setToggleModalEditBug, setBugs }) {
     const [submitting, setIsSubmitting] = useState(false);
     const [info, setInfo] = useState("");
-    const [term, setTerm] = useState("");
+    const [dev, setDev] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [selectedOption, setSelectedOption] = useState("");
     const [formData, setFormData] = useState({
@@ -16,13 +16,13 @@ export default function EditBugModal({ session, params, selectedBug, setToggleMo
     });
 
     const fetchBugs = async () => {
-        const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs`);
+        const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs/search?q=${term}&status=${searchFormData.status}&priority=${searchFormData.priority}&severity=${searchFormData.severity}`);
         const data = await response.json();
         setBugs(data);
     };
 
     const fetchDevelopers = async () => {
-        const response = await fetch(`/api/users?q=${term}`);
+        const response = await fetch(`/api/users?q=${dev}`);
         const data = await response.json();
         setSuggestions(data);
     };
@@ -33,24 +33,24 @@ export default function EditBugModal({ session, params, selectedBug, setToggleMo
     };
 
     const handleSearch = (e) => {
-        setTerm(e.target.value);
+        setDev(e.target.value);
     };
 
     const handleSelect = (e) => {
-        setTerm(e.currentTarget.innerText);
+        setDev(e.currentTarget.innerText);
         setSelectedOption((e.currentTarget.innerText));
         setSuggestions([]);
     };
 
     useEffect(() => {
         const debounce = setTimeout(() => {
-            if (term.length > 0 && term != selectedOption)
+            if (dev.length > 0 && dev != selectedOption)
                 fetchDevelopers();
             else
                 setSuggestions([]);
         }, 1000);
         return () => clearTimeout(debounce);
-    }, [term]);
+    }, [dev]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -141,7 +141,7 @@ export default function EditBugModal({ session, params, selectedBug, setToggleMo
 
                     <div className="pb-4">
                         <label htmlFor="developer" className="form_label">Add developer:</label>
-                        <input className='form_input' type='email' placeholder='Email of the developer' value={term}
+                        <input className='form_input' type='email' placeholder='Email of the developer' value={dev}
                             onChange={handleSearch} name="developer" id="developer" />
                         {suggestions.length > 0 && (
                             suggestions.map((sug) => (

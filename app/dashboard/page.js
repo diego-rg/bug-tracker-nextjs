@@ -115,6 +115,7 @@ export default function Projects() {
             {toggleModalCreateProject &&
                 <CreateProjectModal
                     session={session}
+                    term={term}
                     setProjects={setProjects}
                     setToggleModalCreateProject={setToggleModalCreateProject}
                 />
@@ -123,6 +124,7 @@ export default function Projects() {
             {toggleModalEditProject &&
                 <EditProjectModal
                     session={session}
+                    term={term}
                     setProjects={setProjects}
                     selectedProject={selectedProject}
                     setToggleModalEditProject={setToggleModalEditProject}
@@ -132,6 +134,7 @@ export default function Projects() {
             {toggleModalDeleteProject &&
                 <DeleteProjectModal
                     session={session}
+                    term={term}
                     setProjects={setProjects}
                     selectedProject={selectedProject}
                     setToggleModalDeleteProject={setToggleModalDeleteProject}

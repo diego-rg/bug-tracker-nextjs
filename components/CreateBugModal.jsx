@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-export default function CreateBugModal({ session, params, setToggleModalCreateBug, setBugs }) {
+export default function CreateBugModal({ session, term, formData, params, setToggleModalCreateBug, setBugs }) {
     const [submitting, setIsSubmitting] = useState(false);
     const [info, setInfo] = useState("");
 
     const fetchBugs = async () => {
-        const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs`);
+        const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs/search?q=${term}&status=${formData.status}&priority=${formData.priority}&severity=${formData.severity}`);
         const data = await response.json();
         setBugs(data);
     };

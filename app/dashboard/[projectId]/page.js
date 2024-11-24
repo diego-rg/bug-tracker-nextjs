@@ -171,6 +171,8 @@ export default function Bugs({ params }) {
             {toggleModalCreateBug &&
                 <CreateBugModal
                     session={session}
+                    term={term}
+                    formData={formData}
                     params={params}
                     setToggleModalCreateBug={setToggleModalCreateBug}
                     setBugs={setBugs}
@@ -181,6 +183,8 @@ export default function Bugs({ params }) {
                 <EditBugModal
                     session={session}
                     params={params}
+                    term={term}
+                    searchFormData={formData}
                     setToggleModalEditBug={setToggleModalEditBug}
                     setBugs={setBugs}
                     selectedBug={selectedBug}
@@ -191,6 +195,8 @@ export default function Bugs({ params }) {
                 <DeleteBugModal
                     session={session}
                     params={params}
+                    term={term}
+                    formData={formData}
                     setToggleModalDeleteBug={setToggleModalDeleteBug}
                     setBugs={setBugs}
                     selectedBug={selectedBug}

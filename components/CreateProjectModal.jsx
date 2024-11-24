@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-export default function CreateProjectModal({ session, setToggleModalCreateProject, setProjects }) {
+export default function CreateProjectModal({ session, term, setToggleModalCreateProject, setProjects }) {
     const [submitting, setIsSubmitting] = useState(false);
     const [info, setInfo] = useState("");
 
     const fetchProjects = async () => {
-        const response = await fetch(`/api/users/${session?.user.id}/projects`);
+        const response = await fetch(`/api/users/${session?.user.id}/projects/search?q=${term}`);
         const data = await response.json();
         setProjects(data);
     };

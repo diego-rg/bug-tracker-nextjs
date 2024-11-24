@@ -2,12 +2,12 @@ import { useState } from "react";
 
 import { AiOutlineClose, AiOutlineWarning } from "react-icons/ai";
 
-export default function DeleteBugModal({ session, params, selectedBug, setToggleModalDeleteBug, setBugs }) {
+export default function DeleteBugModal({ session, term, formData, params, selectedBug, setToggleModalDeleteBug, setBugs }) {
     const [submitting, setIsSubmitting] = useState(false);
     const [info, setInfo] = useState(null);
 
     const fetchBugs = async () => {
-        const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs`);
+        const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs/search?q=${term}&status=${formData.status}&priority=${formData.priority}&severity=${formData.severity}`);
         const data = await response.json();
         setBugs(data);
     };

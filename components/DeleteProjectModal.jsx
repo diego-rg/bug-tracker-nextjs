@@ -2,12 +2,12 @@ import { useState } from "react";
 
 import { AiOutlineClose, AiOutlineWarning } from "react-icons/ai";
 
-export default function DeleteProjectModal({ session, selectedProject, setToggleModalDeleteProject, setProjects }) {
+export default function DeleteProjectModal({ session, term, selectedProject, setToggleModalDeleteProject, setProjects }) {
     const [submitting, setIsSubmitting] = useState(false);
     const [info, setInfo] = useState(null);
 
     const fetchProjects = async () => {
-        const response = await fetch(`/api/users/${session?.user.id}/projects`);
+        const response = await fetch(`/api/users/${session?.user.id}/projects/search?q=${term}`);
         const data = await response.json();
         setProjects(data);
     };
