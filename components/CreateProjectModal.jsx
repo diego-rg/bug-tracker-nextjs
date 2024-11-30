@@ -57,7 +57,7 @@ export default function CreateProjectModal({ session, term, setToggleModalCreate
                         <label htmlFor="name" className="form_label">Name:</label>
                         <input className='form_input' type='text' placeholder='Name of your project' name="name" id="name" required />
                     </div>
-                    <div className="text-white">{info}</div>
+                    <div className="dark:text-white">{info}</div>
                     <div className="flex">
                         <button className="btn_success" type='submit' disabled={submitting}>Save project</button>
                         <button className="btn_primary" onClick={() => setToggleModalCreateProject((prev) => !prev)} type="button" disabled={submitting}>Close</button>

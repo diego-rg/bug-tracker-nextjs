@@ -83,7 +83,7 @@ export default function CreateBugModal({ session, term, formData, params, setTog
                         </select>
                     </div>
 
-                    <div className="text-white">{info}</div>
+                    <div className="dark:text-white">{info}</div>
                     <div className="flex">
                         <button className="btn_success" type='submit' disabled={submitting}>Save bug</button>
                         <button className="btn_primary" onClick={() => setToggleModalCreateBug((prev) => !prev)} type="button" disabled={submitting}>Close</button>

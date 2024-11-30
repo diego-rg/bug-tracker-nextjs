@@ -145,7 +145,7 @@ export default function EditBugModal({ session, term, searchFormData, params, se
                             onChange={handleSearch} name="developer" id="developer" />
                         {suggestions.length > 0 && (
                             suggestions.map((sug) => (
-                                <p onClick={handleSelect} className="text-white block cursor-pointer" key={sug.email} id={sug.email}>{sug.email}</p>
+                                <p onClick={handleSelect} className="dark:text-white block cursor-pointer" key={sug.email} id={sug.email}>{sug.email}</p>
                             ))
                         )
                         }
@@ -162,7 +162,7 @@ export default function EditBugModal({ session, term, searchFormData, params, se
                         }
                     </div>
 
-                    <div className="text-white">{info}</div>
+                    <div className="dark:text-white">{info}</div>
 
                     <div className="flex">
                         <button className="btn_success" type='submit' disabled={submitting}>Save bug</button>

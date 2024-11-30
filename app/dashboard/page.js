@@ -43,10 +43,18 @@ export default function Projects() {
 
     // Dark Mode
     useEffect(() => {
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        // If the user has already a saved theme in local storage uses it; if not uses the prefered from the browser; if not set uses light
+        if (localStorage.getItem("theme") == "dark" || localStorage.getItem("theme") == "light") {
+            setTheme(localStorage.getItem("theme"));
+            console.log("Theme set from local storage");
+        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            console.log("Theme set from browser preference");
             setTheme("dark");
+            localStorage.setItem("theme", "dark");
         } else {
+            console.log("Theme set to default (light)");
             setTheme("light");
+            localStorage.setItem("theme", "light");
         }
     }, []);
 
@@ -65,8 +73,10 @@ export default function Projects() {
     useEffect(() => {
         if (theme == "dark") {
             document.querySelector("html").classList.add("dark");
+            localStorage.setItem("theme", "dark");
         } else {
             document.querySelector("html").classList.remove("dark");
+            localStorage.setItem("theme", "light");
         }
     }, [theme]);
 

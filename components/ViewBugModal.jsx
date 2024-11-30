@@ -114,7 +114,7 @@ export default function ViewBugModal({ session, params, selectedBug, setToggleMo
                             <textarea as="textarea" rows="3" name="content" id="content" type="text" className="form_input" />
                         </div>
 
-                        <div className="text-white">{info}</div>
+                        <div className="dark:text-white">{info}</div>
                         <div className="flex justify-end">
                             <button className="btn_small_primary" type='submit' disabled={submitting}>Comment</button>
                         </div>

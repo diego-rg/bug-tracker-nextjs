@@ -57,7 +57,7 @@ export default function DeleteBugModal({ session, term, formData, params, select
                 <div className="p-4">
                     <p className="modal_description">This bug will be deleted and its data lost. Do you wish to proceed?</p>
 
-                    <div className="text-white p-1">{info}</div>
+                    <div className="dark:text-white p-1">{info}</div>
 
                     <button onClick={() => setToggleModalDeleteBug((prev) => !prev)} type="button" disabled={submitting} className="btn_primary">
                         No, go back
