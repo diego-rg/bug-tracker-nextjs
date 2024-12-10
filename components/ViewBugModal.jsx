@@ -95,13 +95,18 @@ export default function ViewBugModal({ session, params, selectedBug, setToggleMo
                     </p>
 
                     <div className="modal_description pt-4 max-h-40vh">Comments:
-                        <ul className="modal_description px-4">
+                        <ul className="modal_description px-2 md:px-4">
                             {comments.length > 0 ?
                                 (comments.map((comment) => (
-                                    <li className="modal_text list-disc p-0" key={comment._id}>
-                                        <span className="modal_description_comment block">{comment.user.email} ( {getTimeAndDate(comment.createdAt)}): </span>
+                                    <div className="text-sm border-solid border-2 rounded-lg p-1 border-gray-400 bg-gray-100 dark:bg-gray-600 list-disc m-2" key={comment._id}>
                                         {comment.content}
-                                    </li>
+                                        <span className="block text-right text-xs mt-1">
+                                            {comment.user.email}
+                                        </span>
+                                        <span className="block text-right text-xs">
+                                            {getTimeAndDate(comment.createdAt)}
+                                        </span>
+                                    </div>
                                 ))) : (
                                     <span className="modal_text">No coments for now.</span>
                                 )
