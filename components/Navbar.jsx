@@ -10,7 +10,6 @@ import { signOut, useSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";
 
 const navigation = [
-    { name: "Guide", href: "#" },
     { name: "Code", href: "https://github.com/diego-rg/bug-tracker-nextjs" },
     { name: "Credits", href: "https://github.com/diego-rg/bug-tracker-nextjs/blob/main/credits.md" },
     { name: "About", href: "https://diego-rg.vercel.app/" },

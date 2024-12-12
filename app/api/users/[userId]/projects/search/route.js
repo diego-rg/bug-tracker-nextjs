@@ -15,6 +15,10 @@ export const GET = async (request, { params }) => {
 
         const projects = await Project.find({ $or: [{ admin: user }, { developers: user }], name: new RegExp(term, "gi") }).populate("admin").populate("developers");
 
+
+        if (projects.length == 0)
+            return new Response(JSON.stringify({ message: "No projects found." }), { status: 200 });
+
         return new Response(JSON.stringify(projects), { status: 200 });
     } catch (error) {
         return new Response(JSON.stringify({ message: "Error fetching the projects data. " + error }), { status: 500, });

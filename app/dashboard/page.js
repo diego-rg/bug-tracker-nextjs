@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
+import Pagination from "@components/Pagination";
 import Loader from "@components/Loader";
 import ProjectCard from "@components/ProjectCard";
 import CreateProjectModal from "@components/CreateProjectModal";
@@ -12,8 +13,8 @@ import SidebarDesktop from "@components/SidebarDesktop";
 import SidebarMobile from "@components/SidebarMobile";
 import { CgMoon, CgSun } from "react-icons/cg";
 import { MdOutlineArrowBack } from "react-icons/md";
-export default function Projects() {
 
+export default function Projects() {
     const { data: session } = useSession();
     const [info, setInfo] = useState("");
     const [theme, setTheme] = useState("");
@@ -24,6 +25,14 @@ export default function Projects() {
     const [toggleModalEditProject, setToggleModalEditProject] = useState(false);
     const [toggleModalDeleteProject, setToggleModalDeleteProject] = useState(false);
 
+    //Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = projects.length > 1 ? projects.slice(indexOfFirstItem, indexOfLastItem) : [];
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     const fetchProjects = async () => {
         setInfo(<Loader />);
         const response = await fetch(`/api/users/${session?.user.id}/projects/search?q=${term}`);
@@ -31,6 +40,7 @@ export default function Projects() {
         if (data.status != 200) {
             setInfo(data.message);
         }
+        setCurrentPage(1);
         setProjects(data);
     };
 
@@ -106,8 +116,8 @@ export default function Projects() {
                 </nav>
 
                 <div className="card_grid p-2 sm:p-10">
-                    {projects.length > 0 ?
-                        (projects.map((project) => (
+                    {currentItems.length > 0 ?
+                        (currentItems.map((project) => (
                             <ProjectCard
                                 key={project._id}
                                 project={project}
@@ -120,6 +130,17 @@ export default function Projects() {
                         )
                     }
                 </div>
+
+                <div className="flex justify-center">
+                    {projects.length > 10 &&
+                        <Pagination
+                            itemsPerPage={itemsPerPage}
+                            totalItems={projects.length}
+                            currentPage={currentPage}
+                            paginate={paginate} />
+                    }
+                </div>
+
             </main>
 
             {toggleModalCreateProject &&

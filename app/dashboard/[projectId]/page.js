@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
+import Pagination from "@components/Pagination";
 import Loader from "@components/Loader";
 import BugCard from "@components/BugCard";
 import ViewBugModal from "@components/ViewBugModal";
@@ -31,6 +32,14 @@ export default function Bugs({ params }) {
     const [toggleModalEditBug, setToggleModalEditBug] = useState(false);
     const [toggleModalDeleteBug, setToggleModalDeleteBug] = useState(false);
 
+    //Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = bugs.length > 1 ? bugs.slice(indexOfFirstItem, indexOfLastItem) : [];
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     const fetchBugs = async () => {
         setInfo(<Loader />);
         const response = await fetch(`/api/users/${session?.user.id}/projects/${params.projectId}/bugs/search?q=${term}&status=${formData.status}&priority=${formData.priority}&severity=${formData.severity}`);
@@ -38,6 +47,7 @@ export default function Bugs({ params }) {
         if (data.status != 200) {
             setInfo(data.message);
         }
+        setCurrentPage(1);
         setBugs(data);
     };
 
@@ -152,8 +162,8 @@ export default function Bugs({ params }) {
                 </nav>
 
                 <div className="card_grid p-2 sm:p-10">
-                    {bugs.length > 0 ?
-                        (bugs.map((bug) => (
+                    {currentItems.length > 0 ?
+                        (currentItems.map((bug) => (
                             <BugCard
                                 key={bug._id}
                                 bug={bug}
@@ -168,6 +178,17 @@ export default function Bugs({ params }) {
                         )
                     }
                 </div>
+
+                <div className="flex justify-center">
+                    {bugs.length > 10 &&
+                        <Pagination
+                            itemsPerPage={itemsPerPage}
+                            totalItems={bugs.length}
+                            currentPage={currentPage}
+                            paginate={paginate} />
+                    }
+                </div>
+
             </main>
 
             {toggleModalViewBug &&
