@@ -37,7 +37,7 @@ export default function Bugs({ params }) {
     const [itemsPerPage] = useState(10);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = bugs.length > 1 ? bugs.slice(indexOfFirstItem, indexOfLastItem) : [];
+    const currentItems = bugs.length > 0 ? bugs.slice(indexOfFirstItem, indexOfLastItem) : [];
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const fetchBugs = async () => {

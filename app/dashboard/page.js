@@ -30,7 +30,7 @@ export default function Projects() {
     const [itemsPerPage] = useState(10);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = projects.length > 1 ? projects.slice(indexOfFirstItem, indexOfLastItem) : [];
+    const currentItems = projects.length > 0 ? projects.slice(indexOfFirstItem, indexOfLastItem) : [];
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const fetchProjects = async () => {
