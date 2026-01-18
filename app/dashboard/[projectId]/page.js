@@ -61,7 +61,7 @@ export default function Bugs({ params }) {
 
     // Dark Mode
     useEffect(() => {
-        // If the user has already a saved theme in local storage uses it; if not uses the prefered from the browser; if not set uses light
+        // If the user has already a saved theme in local storage uses it, if not uses the prefered from the browser, if not set uses light
         if (localStorage.getItem("theme") == "dark" || localStorage.getItem("theme") == "light") {
             setTheme(localStorage.getItem("theme"));
             console.log("Theme set from local storage");
