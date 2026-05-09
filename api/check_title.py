@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler
 import json
-import joblib
+import joblib # type: ignore
 from pathlib import Path
 
 
