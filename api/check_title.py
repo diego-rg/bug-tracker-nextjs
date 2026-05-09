@@ -68,15 +68,15 @@ class handler(BaseHTTPRequestHandler):
             # PREDICTION
             # -------------------------
 
-            score = model.predict_proba([title])[0][1]
+            score = float(model.predict_proba([title])[0][1])
 
             quality = classify_score(score)
 
             response = {
-                "valid": score >= 0.65,
-                "score": round(float(score), 2),
-                "quality": quality
-            }
+                "valid": bool(score >= 0.65),
+                "score": round(score, 2),
+                "quality": str(quality)
+}
 
             # -------------------------
             # RESPONSE
