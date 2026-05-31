@@ -4,7 +4,7 @@ const BugSchema = new Schema({
     name: {
         type: String,
         required: [true, "You must provide a name for the bug."],
-        maxlength: 15
+        maxlength: 20
     },
     description: {
         type: String,
