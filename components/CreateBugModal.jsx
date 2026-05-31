@@ -166,7 +166,7 @@ export default function CreateBugModal({
                                         isGood ? "text-green-500" : "text-red-500"
                                     }`}
                                 >
-                                    Score: {result.score} · {result.quality}
+                                    Score: {result.score} - {result.quality}
                                 </span>
                             )}
 
